@@ -41,8 +41,22 @@ button {
     cursor: pointer;
     background: #ff5c33;
     color: white;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 button:hover {
     transform: scale(1.05);
+}
+
+
+.logs ul {
+    list-style: none;
+    padding: 0;
+}
+
+.logs li {
+    padding: 8px 0;
+    border-bottom: 1px solid #30363d;
 }
