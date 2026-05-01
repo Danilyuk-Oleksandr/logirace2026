@@ -1,0 +1,48 @@
+body {
+    background: #0d1117;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.card {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 12px;
+    min-width: 150px;
+    text-align: center;
+    border: 1px solid #30363d;
+}
+
+.event-box, .logs {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #ff5c33;
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.05);
+}

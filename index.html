@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+    <h1>Mars Base Emergency Simulator</h1>
+    <p>SOL <span id="sol">1</span></p>
+</header>
+
+<main>
+    <section class="stats">
+        <div class="card">Oxygen: <span id="oxygen">100</span>%</div>
+        <div class="card">Energy: <span id="energy">100</span>%</div>
+        <div class="card">Morale: <span id="morale">100</span>%</div>
+    </section>
+
+    <section class="event-box">
+        <h2>Mission Events</h2>
+        <p id="event-text">Press start to begin mission</p>
+
+        <div class="buttons">
+            <button id="choice1">Option 1</button>
+            <button id="choice2">Option 2</button>
+        </div>
+
+        <button id="start-btn">Start Mission</button>
+    </section>
+
+    <section class="logs">
+        <h3>System Logs</h3>
+        <ul id="log-list"></ul>
+    </section>
+</main>
+</body>
+</html>
