@@ -3,6 +3,8 @@ const stormOverlay = document.getElementById("storm-overlay");
 const startScreen = document.getElementById("start-screen");
 const gameContent = document.getElementById("game-content");
 const enterBtn = document.getElementById("enter-btn");
+const menuScreen = document.getElementById("menu-screen");
+const playBtn = document.getElementById("play-btn");
 
 const timerEl = document.getElementById("timer");
 const eventText = document.getElementById("event-text");
@@ -185,6 +187,11 @@ function updateUI() {
     powerEl.textContent = power;
     foodEl.textContent = food;
     moraleEl.textContent = morale;
+
+    document.getElementById("oxygen-bar").style.width = oxygen + "%";
+    document.getElementById("power-bar").style.width = power + "%";
+    document.getElementById("food-bar").style.width = food + "%";
+    document.getElementById("morale-bar").style.width = morale + "%";
 }
 
 function randomEvent() {
@@ -218,6 +225,12 @@ function handleChoice(option) {
 }
 
 function checkStatus() {
+    if (oxygen < 25 || power < 25 || food < 25 || morale < 25) {
+        document.body.classList.add("danger");
+    } else {
+        document.body.classList.remove("danger");
+    }
+
     if (oxygen <= 0 || power <= 0 || food <= 0 || morale <= 0) {
         eventText.textContent = "МІСІЮ ПРОВАЛЕНО";
         clearInterval(timerInterval);
@@ -264,12 +277,17 @@ enterBtn.addEventListener("click", () => {
 
     setTimeout(() => {
         startScreen.style.display = "none";
-        gameContent.style.display = "block";
-
-        setTimeout(() => {
-            gameContent.style.opacity = "1";
-        }, 100);
+        menuScreen.style.display = "flex";
     }, 1000);
+});
+
+playBtn.addEventListener("click", () => {
+    menuScreen.style.display = "none";
+    gameContent.style.display = "block";
+
+    setTimeout(() => {
+        gameContent.style.opacity = "1";
+    }, 100);
 });
 
 function createParticle() {

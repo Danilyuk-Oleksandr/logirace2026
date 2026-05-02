@@ -1,5 +1,5 @@
 body {
-    background-image: url("images/mars-bg.jpg");
+    background-image: url("images/mars-base.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -184,4 +184,61 @@ button:hover {
 
 .blur-screen {
     filter: blur(3px) brightness(0.8);
+}
+
+#menu-screen {
+    position: fixed;
+    inset: 0;
+    background-image: url("images/mars-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.menu-box {
+    text-align: center;
+    background: rgba(22, 27, 34, 0.85);
+    padding: 50px;
+    border-radius: 25px;
+    border: 1px solid #30363d;
+    box-shadow: 0 0 35px rgba(255, 92, 51, 0.2);
+}
+
+.menu-box h1 {
+    color: #ff5c33;
+    font-size: 42px;
+}
+
+.menu-box p {
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+.bar {
+    width: 100%;
+    height: 18px;
+    background: #30363d;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    width: 100%;
+    background: #ff5c33;
+    transition: 0.4s;
+}
+
+.danger {
+    animation: warning 1s infinite;
+}
+
+@keyframes warning {
+    0% { box-shadow: inset 0 0 0 rgba(255,0,0,0); }
+    50% { box-shadow: inset 0 0 100px rgba(255,0,0,0.2); }
+    100% { box-shadow: inset 0 0 0 rgba(255,0,0,0); }
 }
