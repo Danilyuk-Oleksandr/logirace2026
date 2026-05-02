@@ -1,9 +1,20 @@
 body {
-    background: #0b0f16;
+    background-image: url("mars-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: white;
     font-family: 'Orbitron', sans-serif;
     margin: 0;
     padding: 20px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: -1;
 }
 
 main {

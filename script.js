@@ -5,6 +5,7 @@ const logList = document.getElementById("log-list");
 const startBtn = document.getElementById("start-btn");
 const choice1 = document.getElementById("choice1");
 const choice2 = document.getElementById("choice2");
+const choice3 = document.getElementById("choice3");
 
 const oxygenEl = document.getElementById("oxygen");
 const powerEl = document.getElementById("power");
@@ -38,9 +39,17 @@ const events = [
                     morale -= 10;
                     addLog("Буря пошкодила системи");
                 }
+            },
+            {
+                text: "Відправити дрон",
+                action: () => {
+                    power -= 5;
+                    addLog("Дрон дослідив бурю");
+                }
             }
         ]
     },
+
     {
         text: "Температура в теплиці падає.",
         options: [
@@ -58,14 +67,22 @@ const events = [
                     food -= 20;
                     addLog("Теплицю вимкнено");
                 }
+            },
+            {
+                text: "Увімкнути резервний обігрів",
+                action: () => {
+                    power -= 8;
+                    addLog("Резервний обігрів активовано");
+                }
             }
         ]
     },
+
     {
         text: "Виявлено конфлікт серед екіпажу.",
         options: [
             {
-                text: "Дати час на відпочинок",
+                text: "Дати відпочинок",
                 action: () => {
                     morale += 10;
                     power -= 5;
@@ -73,10 +90,71 @@ const events = [
                 }
             },
             {
-                text: "Ігнорувати конфлікт",
+                text: "Ігнорувати",
                 action: () => {
                     morale -= 20;
                     addLog("Мораль екіпажу впала");
+                }
+            },
+            {
+                text: "Провести збори",
+                action: () => {
+                    morale += 5;
+                    addLog("Проведено збори екіпажу");
+                }
+            }
+        ]
+    },
+
+    {
+        text: "Реактор перегрівається.",
+        options: [
+            {
+                text: "Охолодити реактор",
+                action: () => {
+                    power -= 15;
+                    addLog("Реактор охолоджено");
+                }
+            },
+            {
+                text: "Вимкнути реактор",
+                action: () => {
+                    power -= 30;
+                    addLog("Реактор вимкнено");
+                }
+            },
+            {
+                text: "Ризикнути",
+                action: () => {
+                    morale -= 10;
+                    addLog("Реактор працює на межі");
+                }
+            }
+        ]
+    },
+
+    {
+        text: "Запаси води знижуються.",
+        options: [
+            {
+                text: "Переробити лід",
+                action: () => {
+                    power -= 10;
+                    addLog("Запаси води поповнено");
+                }
+            },
+            {
+                text: "Економія води",
+                action: () => {
+                    morale -= 10;
+                    addLog("Увімкнено економію води");
+                }
+            },
+            {
+                text: "Пошук підземного льоду",
+                action: () => {
+                    power -= 5;
+                    addLog("Розпочато пошук льоду");
                 }
             }
         ]
@@ -97,33 +175,44 @@ function updateUI() {
 }
 
 function randomEvent() {
-    const event = events[Math.floor(Math.random() * events.length)];
+    let lastEventIndex = -1;
+
+    let randomIndex;
+
+    do {
+        randomIndex = Math.floor(Math.random() * events.length);
+    } while (randomIndex === lastEventIndex);
+
+    lastEventIndex = randomIndex;
+    const event = events[randomIndex];
 
     eventText.textContent = event.text;
+
     choice1.textContent = event.options[0].text;
     choice2.textContent = event.options[1].text;
+    choice3.textContent = event.options[2].text;
 
-    choice1.onclick = () => {
-        event.options[0].action();
-        updateUI();
-        checkStatus();
-        randomEvent();
-    };
+    choice1.onclick = () => handleChoice(event.options[0]);
+    choice2.onclick = () => handleChoice(event.options[1]);
+    choice3.onclick = () => handleChoice(event.options[2]);
+}
 
-    choice2.onclick = () => {
-        event.options[1].action();
-        updateUI();
-        checkStatus();
-        randomEvent();
-    };
+function handleChoice(option) {
+    option.action();
+    updateUI();
+    checkStatus();
+    randomEvent();
 }
 
 function checkStatus() {
     if (oxygen <= 0 || power <= 0 || food <= 0 || morale <= 0) {
         eventText.textContent = "МІСІЮ ПРОВАЛЕНО";
         clearInterval(timerInterval);
+
         choice1.style.display = "none";
         choice2.style.display = "none";
+        choice3.style.display = "none";
+
         addLog("Колонія зруйнована");
     }
 }
