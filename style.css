@@ -1,5 +1,5 @@
 body {
-    background-image: url("mars-bg.jpg");
+    background-image: url("images/mars-bg.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -7,6 +7,7 @@ body {
     font-family: 'Orbitron', sans-serif;
     margin: 0;
     padding: 20px;
+    transition: filter 0.5s ease;
 }
 
 body::before {
@@ -79,7 +80,7 @@ button:hover {
 #start-screen {
     position: fixed;
     inset: 0;
-    background-image: url("mars-space.jpg");
+    background-image: url("images/mars-space.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -136,4 +137,51 @@ button:hover {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes stormMove {
+    from { background-position: 0 0; }
+    to { background-position: 600px 300px; }
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+/* частинка */
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: fall linear forwards;
+}
+
+/* рух частинк */
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(80px);
+        opacity: 0;
+    }
+}
+
+/* розмитя ефект */
+.blurred {
+    filter: blur(3px) brightness(0.8);
+}
+
+.blur-screen {
+    filter: blur(3px) brightness(0.8);
 }

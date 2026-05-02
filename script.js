@@ -1,3 +1,5 @@
+const stormOverlay = document.getElementById("storm-overlay");
+
 const startScreen = document.getElementById("start-screen");
 const gameContent = document.getElementById("game-content");
 const enterBtn = document.getElementById("enter-btn");
@@ -16,6 +18,11 @@ const powerEl = document.getElementById("power");
 const foodEl = document.getElementById("food");
 const moraleEl = document.getElementById("morale");
 
+const particlesContainer = document.getElementById("particles");
+
+let stormInterval;
+
+
 let oxygen = 100;
 let power = 100;
 let food = 100;
@@ -33,6 +40,7 @@ const events = [
                 text: "Активувати щити",
                 action: () => {
                     power -= 15;
+                    activateStorm();
                     addLog("Щити активовано");
                 }
             },
@@ -41,6 +49,7 @@ const events = [
                 action: () => {
                     oxygen -= 15;
                     morale -= 10;
+                    activateStorm();
                     addLog("Буря пошкодила системи");
                 }
             },
@@ -251,7 +260,6 @@ startBtn.addEventListener("click", () => {
 });
 
 enterBtn.addEventListener("click", () => {
-enterBtn.addEventListener("click", () => {
     startScreen.style.opacity = "0";
 
     setTimeout(() => {
@@ -263,4 +271,42 @@ enterBtn.addEventListener("click", () => {
         }, 100);
     }, 1000);
 });
-});
+
+function createParticle() {
+    const p = document.createElement("div");
+    p.classList.add("particle");
+
+    const colors = ["#ffcc00", "#ff7b00", "#ff3b1f"];
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.top = "-10px";
+
+    const size = Math.random() * 6 + 2;
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+
+    const duration = Math.random() * 3 + 2;
+    p.style.animationDuration = duration + "s";
+
+    particlesContainer.appendChild(p);
+
+    setTimeout(() => {
+        p.remove();
+    }, duration * 1000);
+}
+
+function activateStorm() {
+    document.body.classList.add("blurred");
+
+    stormInterval = setInterval(() => {
+        for (let i = 0; i < 6; i++) {
+            createParticle();
+        }
+    }, 120);
+
+    setTimeout(() => {
+        clearInterval(stormInterval);
+        document.body.classList.remove("blurred");
+    }, 5000);
+}
