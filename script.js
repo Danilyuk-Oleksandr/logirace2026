@@ -1,3 +1,7 @@
+const startScreen = document.getElementById("start-screen");
+const gameContent = document.getElementById("game-content");
+const enterBtn = document.getElementById("enter-btn");
+
 const timerEl = document.getElementById("timer");
 const eventText = document.getElementById("event-text");
 const logList = document.getElementById("log-list");
@@ -244,4 +248,19 @@ startBtn.addEventListener("click", () => {
     addLog("Місію розпочато");
     startTimer();
     randomEvent();
+});
+
+enterBtn.addEventListener("click", () => {
+enterBtn.addEventListener("click", () => {
+    startScreen.style.opacity = "0";
+
+    setTimeout(() => {
+        startScreen.style.display = "none";
+        gameContent.style.display = "block";
+
+        setTimeout(() => {
+            gameContent.style.opacity = "1";
+        }, 100);
+    }, 1000);
+});
 });
