@@ -292,3 +292,13 @@ button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
+
+#status-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}

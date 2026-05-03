@@ -10,6 +10,10 @@ const upgradeBtn = document.getElementById("upgrade-btn");
 const upgradeScreen = document.getElementById("upgrade-screen");
 const backBtn = document.getElementById("back-btn");
 
+const statusBtn = document.getElementById("status-btn");
+const statusScreen = document.getElementById("status-screen");
+const statusBackBtn = document.getElementById("status-back-btn");
+
 const loadingScreen = document.getElementById("loading-screen");
 
 const timerEl = document.getElementById("timer");
@@ -199,6 +203,8 @@ function updateUI() {
     document.getElementById("power-bar").style.width = power + "%";
     document.getElementById("food-bar").style.width = food + "%";
     document.getElementById("morale-bar").style.width = morale + "%";
+
+    updateStatusScreen();
 }
 
 function randomEvent() {
@@ -391,4 +397,24 @@ function buyUpgrade(type, price) {
 
     updateUI();
     addLog("Придбано покращення: " + type);
+}
+
+statusBtn.addEventListener("click", () => {
+    updateStatusScreen();
+    menuScreen.style.display = "none";
+    statusScreen.style.display = "flex";
+});
+
+statusBackBtn.addEventListener("click", () => {
+    statusScreen.style.display = "none";
+    menuScreen.style.display = "flex";
+});
+
+function updateStatusScreen() {
+    document.getElementById("status-oxygen").textContent = oxygen;
+    document.getElementById("status-power").textContent = power;
+    document.getElementById("status-food").textContent = food;
+    document.getElementById("status-morale").textContent = morale;
+    document.getElementById("status-credits").textContent = credits;
+    document.getElementById("status-time").textContent = timerEl.textContent;
 }
