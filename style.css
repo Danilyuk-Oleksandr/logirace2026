@@ -281,11 +281,25 @@ button:hover {
 #upgrade-screen {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background-image: url("images/upgrade-bg.png");
+    background-size: cover;
+    background-position: center;
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+#upgrade-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+}
+
+#upgrade-screen .menu-box {
+    position: relative;
+    z-index: 2;
 }
 
 button:disabled {
@@ -296,9 +310,23 @@ button:disabled {
 #status-screen {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.92);
+    background-image: url("images/status-bg.png");
+    background-size: cover;
+    background-position: center;
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+#status-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+}
+
+#status-screen .menu-box {
+    position: relative;
+    z-index: 2;
 }
