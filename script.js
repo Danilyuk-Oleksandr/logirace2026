@@ -6,6 +6,12 @@ const enterBtn = document.getElementById("enter-btn");
 const menuScreen = document.getElementById("menu-screen");
 const playBtn = document.getElementById("play-btn");
 
+const upgradeBtn = document.getElementById("upgrade-btn");
+const upgradeScreen = document.getElementById("upgrade-screen");
+const backBtn = document.getElementById("back-btn");
+
+const loadingScreen = document.getElementById("loading-screen");
+
 const timerEl = document.getElementById("timer");
 const eventText = document.getElementById("event-text");
 const logList = document.getElementById("log-list");
@@ -277,7 +283,23 @@ enterBtn.addEventListener("click", () => {
 
     setTimeout(() => {
         startScreen.style.display = "none";
-        menuScreen.style.display = "flex";
+
+        loadingScreen.style.display = "flex";
+
+        setTimeout(() => {
+            loadingScreen.style.opacity = "1";
+        }, 100);
+
+        setTimeout(() => {
+            loadingScreen.style.opacity = "0";
+
+            setTimeout(() => {
+                loadingScreen.style.display = "none";
+                menuScreen.style.display = "flex";
+            }, 1000);
+
+        }, 3500);
+
     }, 1000);
 });
 
@@ -327,4 +349,24 @@ function activateStorm() {
         clearInterval(stormInterval);
         document.body.classList.remove("blurred");
     }, 5000);
+}
+
+upgradeBtn.addEventListener("click", () => {
+    menuScreen.style.display = "none";
+    upgradeScreen.style.display = "flex";
+});
+
+backBtn.addEventListener("click", () => {
+    upgradeScreen.style.display = "none";
+    menuScreen.style.display = "flex";
+});
+
+function buyUpgrade(type) {
+    if (type === "oxygen") oxygen = Math.min(100, oxygen + 20);
+    if (type === "power") power = Math.min(100, power + 20);
+    if (type === "food") food = Math.min(100, food + 20);
+    if (type === "morale") morale = Math.min(100, morale + 20);
+
+    updateUI();
+    addLog("Придбано покращення: " + type);
 }

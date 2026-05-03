@@ -23,6 +23,11 @@
     </div>
 </div>
 
+<div id="loading-screen">
+    <img src="images/mars-bg.jpg" alt="Mars Base">
+    <h2>ПІДКЛЮЧЕННЯ ДО BASE OMEGA...</h2>
+</div>
+
 <div id="menu-screen">
     <div class="menu-box">
         <h1>ТЕРМІНАЛ BASE OMEGA</h1>
@@ -31,6 +36,30 @@
         <button id="play-btn">ПОЧАТИ МІСІЮ</button>
         <button id="upgrade-btn">ПОКРАЩЕННЯ</button>
         <button id="status-btn">СТАН БАЗИ</button>
+    </div>
+</div>
+
+<div id="upgrade-screen">
+    <div class="menu-box">
+        <h1>ПОКРАЩЕННЯ БАЗИ</h1>
+
+        <button onclick="buyUpgrade('oxygen')">
+            Фільтр кисню (+20 кисню)
+        </button>
+
+        <button onclick="buyUpgrade('power')">
+            Сонячні панелі (+20 енергії)
+        </button>
+
+        <button onclick="buyUpgrade('food')">
+            Гідропоніка (+20 їжі)
+        </button>
+
+        <button onclick="buyUpgrade('morale')">
+            Зона відпочинку (+20 моралі)
+        </button>
+
+        <button id="back-btn">НАЗАД</button>
     </div>
 </div>
 
