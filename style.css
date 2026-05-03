@@ -228,7 +228,7 @@ button:hover {
 
 .fill {
     height: 100%;
-    width: 100%;
+    width: 80%;
     background: #ff5c33;
     transition: 0.4s;
 }
@@ -286,4 +286,9 @@ button:hover {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }

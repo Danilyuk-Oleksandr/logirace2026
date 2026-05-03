@@ -43,20 +43,22 @@
     <div class="menu-box">
         <h1>ПОКРАЩЕННЯ БАЗИ</h1>
 
-        <button onclick="buyUpgrade('oxygen')">
-            Фільтр кисню (+20 кисню)
+        <p>Кредити: <span id="credits">100</span></p>
+
+        <button id="oxygen-upgrade" onclick="buyUpgrade('oxygen', 30)">
+            Фільтр кисню (+20) | 30 кредитів
         </button>
 
-        <button onclick="buyUpgrade('power')">
-            Сонячні панелі (+20 енергії)
+        <button id="power-upgrade" onclick="buyUpgrade('power', 30)">
+            Сонячні панелі (+20) | 30 кредитів
         </button>
 
-        <button onclick="buyUpgrade('food')">
-            Гідропоніка (+20 їжі)
+        <button id="food-upgrade" onclick="buyUpgrade('food', 30)">
+            Гідропоніка (+20) | 30 кредитів
         </button>
 
-        <button onclick="buyUpgrade('morale')">
-            Зона відпочинку (+20 моралі)
+        <button id="morale-upgrade" onclick="buyUpgrade('morale', 30)">
+            Зона відпочинку (+20) | 30 кредитів
         </button>
 
         <button id="back-btn">НАЗАД</button>
@@ -79,13 +81,13 @@
 
         <div class="card">
             <h2>РЕСУРСИ</h2>
-            <p>Кисень: <span id="oxygen">100</span>%</p>
+            <p>Кисень: <span id="oxygen">80</span>%</p>
             <div class="bar"><div id="oxygen-bar" class="fill"></div></div>
-            <p>Енергія: <span id="power">100</span>%</p>
+            <p>Енергія: <span id="power">80</span>%</p>
             <div class="bar"><div id="power-bar" class="fill"></div></div>
-            <p>Їжа: <span id="food">100</span>%</p>
+            <p>Їжа: <span id="food">80</span>%</p>
             <div class="bar"><div id="food-bar" class="fill"></div></div>
-            <p>Мораль: <span id="morale">100</span>%</p>
+            <p>Мораль: <span id="morale">80</span>%</p>
             <div class="bar"><div id="morale-bar" class="fill"></div></div>
         </div>
     </section>

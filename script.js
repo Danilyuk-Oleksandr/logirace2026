@@ -31,10 +31,11 @@ const particlesContainer = document.getElementById("particles");
 let stormInterval;
 
 
-let oxygen = 100;
-let power = 100;
-let food = 100;
-let morale = 100;
+let oxygen = 80;
+let power = 80;
+let food = 80;
+let morale = 80;
+let credits = 100;
 
 let minutes = 24;
 let seconds = 0;
@@ -361,11 +362,32 @@ backBtn.addEventListener("click", () => {
     menuScreen.style.display = "flex";
 });
 
-function buyUpgrade(type) {
+function buyUpgrade(type, price) {
+
+    if (credits < price) {
+        addLog("Недостатньо кредитів");
+        return;
+    }
+
+    const button = document.getElementById(type + "-upgrade");
+
+    if (button.disabled) {
+        addLog("Покращення вже куплено");
+        return;
+    }
+
+    credits -= price;
+
     if (type === "oxygen") oxygen = Math.min(100, oxygen + 20);
     if (type === "power") power = Math.min(100, power + 20);
     if (type === "food") food = Math.min(100, food + 20);
     if (type === "morale") morale = Math.min(100, morale + 20);
+
+    button.disabled = true;
+    button.textContent = "ПРИДБАНО";
+    button.style.background = "#2ea043";
+
+    document.getElementById("credits").textContent = credits;
 
     updateUI();
     addLog("Придбано покращення: " + type);
