@@ -14,8 +14,6 @@ const statusBtn = document.getElementById("status-btn");
 const statusScreen = document.getElementById("status-screen");
 const statusBackBtn = document.getElementById("status-back-btn");
 
-const loadingScreen = document.getElementById("loading-screen");
-
 const timerEl = document.getElementById("timer");
 const eventText = document.getElementById("event-text");
 const logList = document.getElementById("log-list");
@@ -286,37 +284,11 @@ startBtn.addEventListener("click", () => {
 });
 
 enterBtn.addEventListener("click", () => {
-    startScreen.style.opacity = "0";
-
-    setTimeout(() => {
-        startScreen.style.display = "none";
-
-        loadingScreen.style.display = "flex";
-
-        setTimeout(() => {
-            loadingScreen.style.opacity = "1";
-        }, 100);
-
-        setTimeout(() => {
-            loadingScreen.style.opacity = "0";
-
-            setTimeout(() => {
-                loadingScreen.style.display = "none";
-                menuScreen.style.display = "flex";
-            }, 1000);
-
-        }, 3500);
-
-    }, 1000);
+    switchScreen(startScreen, menuScreen);
 });
 
 playBtn.addEventListener("click", () => {
-    menuScreen.style.display = "none";
-    gameContent.style.display = "block";
-
-    setTimeout(() => {
-        gameContent.style.opacity = "1";
-    }, 100);
+    switchScreen(menuScreen, gameContent);
 });
 
 function createParticle() {
@@ -359,13 +331,11 @@ function activateStorm() {
 }
 
 upgradeBtn.addEventListener("click", () => {
-    menuScreen.style.display = "none";
-    upgradeScreen.style.display = "flex";
+    switchScreen(menuScreen, upgradeScreen);
 });
 
 backBtn.addEventListener("click", () => {
-    upgradeScreen.style.display = "none";
-    menuScreen.style.display = "flex";
+    switchScreen(upgradeScreen, menuScreen);
 });
 
 function buyUpgrade(type, price) {
@@ -401,13 +371,11 @@ function buyUpgrade(type, price) {
 
 statusBtn.addEventListener("click", () => {
     updateStatusScreen();
-    menuScreen.style.display = "none";
-    statusScreen.style.display = "flex";
+    switchScreen(menuScreen, statusScreen);
 });
 
 statusBackBtn.addEventListener("click", () => {
-    statusScreen.style.display = "none";
-    menuScreen.style.display = "flex";
+    switchScreen(statusScreen, menuScreen);
 });
 
 function updateStatusScreen() {
@@ -417,4 +385,12 @@ function updateStatusScreen() {
     document.getElementById("status-morale").textContent = morale;
     document.getElementById("status-credits").textContent = credits;
     document.getElementById("status-time").textContent = timerEl.textContent;
+}
+
+function switchScreen(hideScreen, showScreen) {
+    hideScreen.classList.remove("active");
+
+    setTimeout(() => {
+        showScreen.classList.add("active");
+    }, 500);
 }
