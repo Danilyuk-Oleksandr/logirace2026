@@ -1,13 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap');
+
 body {
-    background-image: url("images/mars-base.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
+    url("images/mars-base.jpg") center/cover fixed;
     color: white;
     font-family: 'Orbitron', sans-serif;
     margin: 0;
     padding: 20px;
     transition: filter 0.5s ease;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 body::before {
@@ -19,55 +22,63 @@ body::before {
 }
 
 main {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: auto;
+    padding-bottom: 40px;
 }
 
 .top-panel {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
 }
 
 .card {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 15px;
-    padding: 20px;
-    flex: 1;
-    box-shadow: 0 0 20px rgba(255, 92, 51, 0.15);
+    background: rgba(20, 24, 35, 0.72);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,92,51,0.12);
+    transition: 0.3s ease;
 }
 
 button {
-    background: #ff5c33;
-    color: white;
+    background: linear-gradient(135deg, #ff5c33, #ff8733);
     border: none;
-    padding: 12px 18px;
-    border-radius: 10px;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight: 600;
     cursor: pointer;
     margin: 8px;
-    transition: 0.3s;
+    transition: all 0.25s ease;
+    box-shadow: 0 0 15px rgba(255,92,51,0.25);
 }
 
 button:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+        0 8px 25px rgba(255,92,51,0.45),
+        0 0 18px rgba(255,92,51,0.4);
 }
 
 .logs ul {
     list-style: none;
-    padding: 0;
-    max-height: 250px;
+    max-height: 240px;
     overflow-y: auto;
+    padding-right: 8px;
 }
 
 .logs li {
-    padding: 6px 0;
-    border-bottom: 1px solid #30363d;
-}
-
-#timer {
-    color: #ff5c33;
-    font-size: 48px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    opacity: 0.9;
 }
 
 #start-screen {
@@ -84,6 +95,26 @@ button:hover {
     transition: opacity 1s ease;
 }
 
+button:active {
+    transform: scale(0.97);
+}
+
+button:disabled {
+    background: #2ea043;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.bar {
+    width: 100%;
+    height: 16px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
 #start-screen::before {
     content: "";
     position: absolute;
@@ -93,15 +124,25 @@ button:hover {
 }
 
 .start-box {
-    position: relative;
-    z-index: 2;
-    max-width: 750px;
-    padding: 45px;
-    background: rgba(22, 27, 34, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(20, 24, 35, 0.72);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 24px;
-    box-shadow: 0 0 40px rgba(255, 92, 51, 0.2);
-    animation: fadeUp 1.2s ease;
+    padding: 28px;
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,92,51,0.12);
+    transition: 0.3s ease;
+    animation: fadeUp 1s ease;
+}
+
+.card:hover,
+.menu-box:hover,
+.start-box:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.5),
+        0 0 35px rgba(255,92,51,0.22);
 }
 
 .start-box h1 {
@@ -124,12 +165,25 @@ button:hover {
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(35px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+#start-screen,
+#menu-screen,
+#upgrade-screen,
+#status-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
 }
 
 @keyframes stormMove {
@@ -180,14 +234,13 @@ button:hover {
 }
 
 #menu-screen {
-    position: fixed;
-    inset: 0;
     background-image: url("images/mars-bg.jpg");
     background-size: cover;
     background-position: center;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,92,51,0.12);
+    transition: 0.3s ease;
 }
 
 .menu-box {
@@ -197,6 +250,7 @@ button:hover {
     border-radius: 25px;
     border: 1px solid #30363d;
     box-shadow: 0 0 35px rgba(255, 92, 51, 0.2);
+    animation: fadeUp 1s ease;
 }
 
 .menu-box h1 {
@@ -209,20 +263,13 @@ button:hover {
     font-size: 18px;
 }
 
-.bar {
-    width: 100%;
-    height: 18px;
-    background: #30363d;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    overflow: hidden;
-}
-
 .fill {
     height: 100%;
     width: 80%;
-    background: #ff5c33;
-    transition: 0.4s;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #ff5c33, #ffb347);
+    box-shadow: 0 0 12px rgba(255,92,51,0.6);
+    transition: width 0.4s ease;
 }
 
 .danger {
@@ -258,11 +305,6 @@ button:hover {
     z-index: 2;
 }
 
-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
 #status-screen {
     position: fixed;
     inset: 0;
@@ -287,17 +329,17 @@ button:disabled {
 }
 
 .screen {
+    display: none;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 .screen.active {
+    display: flex;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    display: flex;
 }
 
 #game-content.active {
@@ -325,4 +367,103 @@ button:disabled {
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#ff5c33, #ff8b3d);
+    border-radius: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 42px;
+    color: #ff7a3d;
+    text-shadow: 0 0 20px rgba(255, 92, 51, 0.8);
+    letter-spacing: 3px;
+}
+
+header p {
+    opacity: 0.8;
+    margin-top: 10px;
+}
+
+h2 {
+    color: #ff7a3d;
+    margin-bottom: 15px;
+    font-size: 22px;
+    text-shadow: 0 0 12px rgba(255,92,51,0.4);
+}
+
+#timer {
+    font-size: 70px;
+    font-weight: 800;
+    color: #ff5c33;
+    text-shadow:
+        0 0 15px rgba(255,92,51,0.8),
+        0 0 35px rgba(255,92,51,0.4);
+    text-align: center;
+    margin-top: 15px;
+}
+
+#event-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #e6edf3;
+}
+
+
+@keyframes dangerPulse {
+    0% {
+        box-shadow: inset 0 0 0 rgba(255,0,0,0);
+    }
+    50% {
+        box-shadow: inset 0 0 200px rgba(255,0,0,0.12);
+    }
+    100% {
+        box-shadow: inset 0 0 0 rgba(255,0,0,0);
+    }
+}
+
+@media (max-width: 900px) {
+    .top-panel {
+        grid-template-columns: 1fr;
+    }
+
+    #timer {
+        font-size: 52px;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    .card,
+    .menu-box,
+    .start-box {
+        padding: 20px;
+    }
+}
+
+#game-content.active {
+    display: block !important;
 }

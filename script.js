@@ -1,5 +1,3 @@
-const stormOverlay = document.getElementById("storm-overlay");
-
 const startScreen = document.getElementById("start-screen");
 const gameContent = document.getElementById("game-content");
 const enterBtn = document.getElementById("enter-btn");
@@ -205,8 +203,9 @@ function updateUI() {
     updateStatusScreen();
 }
 
+let lastEventIndex = -1;
+
 function randomEvent() {
-    let lastEventIndex = -1;
 
     let randomIndex;
 
@@ -230,6 +229,12 @@ function randomEvent() {
 
 function handleChoice(option) {
     option.action();
+
+    oxygen = Math.max(0, Math.min(100, oxygen));
+    power = Math.max(0, Math.min(100, power));
+    food = Math.max(0, Math.min(100, food));
+    morale = Math.max(0, Math.min(100, morale));
+
     updateUI();
     checkStatus();
     randomEvent();
@@ -255,6 +260,8 @@ function checkStatus() {
 }
 
 function startTimer() {
+    if (timerInterval) return;
+
     timerInterval = setInterval(() => {
         if (seconds === 0) {
             if (minutes === 0) {
@@ -262,6 +269,7 @@ function startTimer() {
                 eventText.textContent = "МІСІЮ УСПІШНО ЗАВЕРШЕНО";
                 choice1.style.display = "none";
                 choice2.style.display = "none";
+                choice3.style.display = "none";
                 addLog("Бурю успішно пережито");
                 return;
             }
