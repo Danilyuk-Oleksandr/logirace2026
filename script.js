@@ -29,7 +29,7 @@ const moraleEl = document.getElementById("morale");
 const particlesContainer = document.getElementById("particles");
 
 let stormInterval;
-
+let currentEvent;
 
 let oxygen = 80;
 let power = 80;
@@ -41,144 +41,210 @@ let minutes = 24;
 let seconds = 0;
 let timerInterval;
 
+let score = oxygen + power + food + morale + credits;
+addLog("Фінальний score: " + score);
+
+let sol = 1;
+const solEl = document.getElementById("sol");
+
 const events = [
     {
         text: "Пилова буря наближається до сонячних панелей.",
+        effect: "sandstorm",
         options: [
-            {
-                text: "Активувати щити",
-                action: () => {
-                    power -= 15;
-                    activateStorm();
-                    addLog("Щити активовано");
-                }
-            },
-            {
-                text: "Ігнорувати бурю",
-                action: () => {
-                    oxygen -= 15;
-                    morale -= 10;
-                    activateStorm();
-                    addLog("Буря пошкодила системи");
-                }
-            },
-            {
-                text: "Відправити дрон",
-                action: () => {
-                    power -= 5;
-                    addLog("Дрон дослідив бурю");
-                }
-            }
+            { text: "Активувати щити", action: () => { power -= 15; addLog("Щити активовано"); } },
+            { text: "Ігнорувати бурю", action: () => { oxygen -= 15; morale -= 10; addLog("Буря пошкодила системи"); } },
+            { text: "Відправити дрон", action: () => { power -= 5; addLog("Дрон дослідив бурю"); } }
+        ]
+    },
+
+    {
+        text: "Метеорит пошкодив зовнішній модуль.",
+        effect: "impact",
+        options: [
+            { text: "Ремонт модуля", action: () => { power -= 10; oxygen += 5; addLog("Модуль відремонтовано"); } },
+            { text: "Ізолювати сектор", action: () => { morale -= 5; addLog("Сектор ізольовано"); } },
+            { text: "Ігнорувати", action: () => { oxygen -= 20; addLog("Втрачено кисень"); } }
         ]
     },
 
     {
         text: "Температура в теплиці падає.",
+        effect: "freeze",
         options: [
-            {
-                text: "Перенаправити енергію",
-                action: () => {
-                    power -= 10;
-                    food += 5;
-                    addLog("Енергію перенаправлено");
-                }
-            },
-            {
-                text: "Вимкнути теплицю",
-                action: () => {
-                    food -= 20;
-                    addLog("Теплицю вимкнено");
-                }
-            },
-            {
-                text: "Увімкнути резервний обігрів",
-                action: () => {
-                    power -= 8;
-                    addLog("Резервний обігрів активовано");
-                }
-            }
+            { text: "Перенаправити енергію", action: () => { power -= 10; food += 5; addLog("Енергію перенаправлено"); } },
+            { text: "Вимкнути теплицю", action: () => { food -= 20; addLog("Теплицю вимкнено"); } },
+            { text: "Резервний обігрів", action: () => { power -= 8; addLog("Обігрів увімкнено"); } }
         ]
     },
 
     {
         text: "Виявлено конфлікт серед екіпажу.",
+        effect: "glitch",
         options: [
-            {
-                text: "Дати відпочинок",
-                action: () => {
-                    morale += 10;
-                    power -= 5;
-                    addLog("Екіпаж відпочив");
-                }
-            },
-            {
-                text: "Ігнорувати",
-                action: () => {
-                    morale -= 20;
-                    addLog("Мораль екіпажу впала");
-                }
-            },
-            {
-                text: "Провести збори",
-                action: () => {
-                    morale += 5;
-                    addLog("Проведено збори екіпажу");
-                }
-            }
+            { text: "Дати відпочинок", action: () => { morale += 10; power -= 5; addLog("Екіпаж відпочив"); } },
+            { text: "Ігнорувати", action: () => { morale -= 20; addLog("Мораль впала"); } },
+            { text: "Провести збори", action: () => { morale += 5; addLog("Проведено збори"); } }
         ]
     },
 
     {
         text: "Реактор перегрівається.",
+        effect: "heat",
         options: [
-            {
-                text: "Охолодити реактор",
-                action: () => {
-                    power -= 15;
-                    addLog("Реактор охолоджено");
-                }
-            },
-            {
-                text: "Вимкнути реактор",
-                action: () => {
-                    power -= 30;
-                    addLog("Реактор вимкнено");
-                }
-            },
-            {
-                text: "Ризикнути",
-                action: () => {
-                    morale -= 10;
-                    addLog("Реактор працює на межі");
-                }
-            }
+            { text: "Охолодити", action: () => { power -= 15; addLog("Реактор охолоджено"); } },
+            { text: "Вимкнути", action: () => { power -= 30; addLog("Реактор вимкнено"); } },
+            { text: "Ризикнути", action: () => { morale -= 10; addLog("Реактор працює на межі"); } }
         ]
     },
 
     {
         text: "Запаси води знижуються.",
+        effect: "warning",
         options: [
-            {
-                text: "Переробити лід",
-                action: () => {
-                    power -= 10;
-                    addLog("Запаси води поповнено");
-                }
-            },
-            {
-                text: "Економія води",
-                action: () => {
-                    morale -= 10;
-                    addLog("Увімкнено економію води");
-                }
-            },
-            {
-                text: "Пошук підземного льоду",
-                action: () => {
-                    power -= 5;
-                    addLog("Розпочато пошук льоду");
-                }
-            }
+            { text: "Переробити лід", action: () => { power -= 10; addLog("Воду поповнено"); } },
+            { text: "Економія", action: () => { morale -= 10; addLog("Економія води"); } },
+            { text: "Пошук льоду", action: () => { power -= 5; addLog("Пошук льоду"); } }
+        ]
+    },
+
+    {
+        text: "Система зв'язку втратила сигнал із Землею.",
+        effect: "glitch",
+        options: [
+            { text: "Перезавантажити антену", action: () => { power -= 8; addLog("Антену перезавантажено"); } },
+            { text: "Чекати", action: () => { morale -= 8; addLog("Екіпаж нервує"); } },
+            { text: "Резервний канал", action: () => { power -= 5; morale += 3; addLog("Резервний канал активовано"); } }
+        ]
+    },
+
+    {
+        text: "Робот-помічник зламався.",
+        effect: "glitch",
+        options: [
+            { text: "Полагодити", action: () => { power -= 7; addLog("Робота полагоджено"); } },
+            { text: "Розібрати на деталі", action: () => { power += 5; addLog("Отримано запчастини"); } },
+            { text: "Ігнорувати", action: () => { morale -= 5; addLog("Екіпаж незадоволений"); } }
+        ]
+    },
+
+    {
+        text: "Знайдено нове родовище льоду.",
+        effect: "success",
+        options: [
+            { text: "Добувати", action: () => { power -= 8; oxygen += 10; addLog("Лід добуто"); } },
+            { text: "Позначити на карті", action: () => { addLog("Локацію збережено"); } },
+            { text: "Ігнорувати", action: () => { addLog("Ресурс пропущено"); } }
+        ]
+    },
+
+    {
+        text: "Відмова системи фільтрації повітря.",
+        effect: "danger",
+        options: [
+            { text: "Швидкий ремонт", action: () => { oxygen += 10; power -= 10; addLog("Фільтр відновлено"); } },
+            { text: "Резервний фільтр", action: () => { credits -= 15; addLog("Резерв використано"); } },
+            { text: "Чекати", action: () => { oxygen -= 20; addLog("Повітря погіршується"); } }
+        ]
+    },
+
+    {
+        text: "Виявлено невідому бактерію в лабораторії.",
+        effect: "toxic",
+        options: [
+            { text: "Ізоляція", action: () => { power -= 5; addLog("Лабораторію ізольовано"); } },
+            { text: "Дослідити", action: () => { morale += 5; addLog("Почато дослідження"); } },
+            { text: "Знищити зразок", action: () => { addLog("Зразок знищено"); } }
+        ]
+    },
+
+    {
+        text: "Сонячний спалах впливає на електроніку.",
+        effect: "flash",
+        options: [
+            { text: "Вимкнути системи", action: () => { power -= 5; addLog("Системи захищено"); } },
+            { text: "Ризикнути", action: () => { power -= 20; addLog("Системи пошкоджено"); } },
+            { text: "Щити", action: () => { power -= 10; addLog("Щити активовано"); } }
+        ]
+    },
+
+    {
+        text: "Екіпаж святкує маленьку перемогу.",
+        effect: "success",
+        options: [
+            { text: "Святкувати", action: () => { morale += 15; food -= 5; addLog("Святкування завершено"); } },
+            { text: "Працювати далі", action: () => { morale -= 5; addLog("Без відпочинку"); } },
+            { text: "Коротка перерва", action: () => { morale += 5; addLog("Перерва завершена"); } }
+        ]
+    },
+
+    {
+        text: "Відкрито новий кратер поблизу бази.",
+        effect: "impact",
+        options: [
+            { text: "Дослідити", action: () => { power -= 6; credits += 10; addLog("Знайдено ресурси"); } },
+            { text: "Ігнорувати", action: () => { addLog("Кратер проігноровано"); } },
+            { text: "Поставити маяк", action: () => { power -= 3; addLog("Маяк встановлено"); } }
+        ]
+    },
+
+    {
+        text: "Скафандр пошкоджено.",
+        effect: "danger",
+        options: [
+            { text: "Полагодити", action: () => { credits -= 10; addLog("Скафандр полагоджено"); } },
+            { text: "Замінити", action: () => { credits -= 20; addLog("Скафандр замінено"); } },
+            { text: "Ігнорувати", action: () => { morale -= 8; addLog("Ризик для екіпажу"); } }
+        ]
+    },
+
+    {
+        text: "Несправність у системі освітлення.",
+        effect: "glitch",
+        options: [
+            { text: "Ремонт", action: () => { power -= 4; addLog("Освітлення відновлено"); } },
+            { text: "Резервне світло", action: () => { power -= 2; addLog("Резерв активовано"); } },
+            { text: "Ігнорувати", action: () => { morale -= 5; addLog("Темрява нервує екіпаж"); } }
+        ]
+    },
+
+    {
+        text: "Марсохід повернувся з ресурсами.",
+        effect: "success",
+        options: [
+            { text: "Прийняти вантаж", action: () => { food += 10; credits += 5; addLog("Ресурси отримано"); } },
+            { text: "Перевірити", action: () => { addLog("Вантаж перевірено"); } },
+            { text: "Відкласти", action: () => { morale -= 3; addLog("Доставка відкладена"); } }
+        ]
+    },
+
+    {
+        text: "Тривога: витік кисню.",
+        effect: "danger",
+        options: [
+            { text: "Закрити шлюз", action: () => { oxygen -= 5; addLog("Шлюз закрито"); } },
+            { text: "Ремонт", action: () => { power -= 8; oxygen += 8; addLog("Витік усунуто"); } },
+            { text: "Евакуація сектора", action: () => { morale -= 6; addLog("Сектор евакуйовано"); } }
+        ]
+    },
+
+    {
+        text: "Знайдено старий покинутий модуль.",
+        effect: "success",
+        options: [
+            { text: "Розібрати", action: () => { credits += 15; addLog("Отримано ресурси"); } },
+            { text: "Дослідити", action: () => { morale += 5; addLog("Знайдено дані"); } },
+            { text: "Залишити", action: () => { addLog("Модуль залишено"); } }
+        ]
+    },
+
+    {
+        text: "Ніч на Марсі особливо холодна.",
+        effect: "freeze",
+        options: [
+            { text: "Підняти обігрів", action: () => { power -= 12; addLog("Обігрів посилено"); } },
+            { text: "Теплі костюми", action: () => { morale += 3; addLog("Екіпаж утеплено"); } },
+            { text: "Економити", action: () => { morale -= 7; addLog("Холодно, але економно"); } }
         ]
     }
 ];
@@ -206,7 +272,6 @@ function updateUI() {
 let lastEventIndex = -1;
 
 function randomEvent() {
-
     let randomIndex;
 
     do {
@@ -215,6 +280,7 @@ function randomEvent() {
 
     lastEventIndex = randomIndex;
     const event = events[randomIndex];
+    currentEvent = event;
 
     eventText.textContent = event.text;
 
@@ -229,6 +295,7 @@ function randomEvent() {
 
 function handleChoice(option) {
     option.action();
+    playEffect(currentEvent.effect);
 
     oxygen = Math.max(0, Math.min(100, oxygen));
     power = Math.max(0, Math.min(100, power));
@@ -261,6 +328,11 @@ function checkStatus() {
 
 function startTimer() {
     if (timerInterval) return;
+
+    if (seconds === 59) {
+        sol++;
+        solEl.textContent = sol;
+    }
 
     timerInterval = setInterval(() => {
         if (seconds === 0) {
@@ -299,43 +371,37 @@ playBtn.addEventListener("click", () => {
     switchScreen(menuScreen, gameContent);
 });
 
-function createParticle() {
-    const p = document.createElement("div");
-    p.classList.add("particle");
+function createSandParticle() {
+    const particle = document.createElement("div");
+    particle.classList.add("sand-particle");
 
-    const colors = ["#ffcc00", "#ff7b00", "#ff3b1f"];
-    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.left = Math.random() * window.innerWidth + "px";
+    particle.style.top = "-10px";
 
-    p.style.left = Math.random() * window.innerWidth + "px";
-    p.style.top = "-10px";
+    const size = Math.random() * 2 + 1;
+    particle.style.width = size + "px";
+    particle.style.height = size + "px";
 
-    const size = Math.random() * 6 + 2;
-    p.style.width = size + "px";
-    p.style.height = size + "px";
+    particle.style.animationDuration = (Math.random() * 2 + 1) + "s";
 
-    const duration = Math.random() * 3 + 2;
-    p.style.animationDuration = duration + "s";
+    particlesContainer.appendChild(particle);
 
-    particlesContainer.appendChild(p);
-
-    setTimeout(() => {
-        p.remove();
-    }, duration * 1000);
+    setTimeout(() => particle.remove(), 3000);
 }
 
-function activateStorm() {
-    document.body.classList.add("blurred");
+function activateSandstorm() {
+    document.body.classList.add("sandstorm");
 
-    stormInterval = setInterval(() => {
-        for (let i = 0; i < 6; i++) {
-            createParticle();
+    let interval = setInterval(() => {
+        for (let i = 0; i < 25; i++) {
+            createSandParticle();
         }
-    }, 120);
+    }, 100);
 
     setTimeout(() => {
-        clearInterval(stormInterval);
-        document.body.classList.remove("blurred");
-    }, 5000);
+        clearInterval(interval);
+        document.body.classList.remove("sandstorm");
+    }, 2500);
 }
 
 upgradeBtn.addEventListener("click", () => {
@@ -392,13 +458,36 @@ function updateStatusScreen() {
     document.getElementById("status-food").textContent = food;
     document.getElementById("status-morale").textContent = morale;
     document.getElementById("status-credits").textContent = credits;
-    document.getElementById("status-time").textContent = timerEl.textContent;
+    document.getElementById("status-time").textContent =
+        timerEl.textContent || "24:00";
 }
 
 function switchScreen(hideScreen, showScreen) {
     hideScreen.classList.remove("active");
+    showScreen.classList.add("active");
+}
+
+function playEffect(type) {
+    document.body.classList.remove(
+        "effect-sandstorm",
+        "effect-danger",
+        "effect-success",
+        "effect-glitch",
+        "effect-freeze",
+        "effect-heat",
+        "effect-flash",
+        "effect-toxic",
+        "effect-impact",
+        "effect-warning"
+    );
+
+    document.body.classList.add("effect-" + type);
+
+    if (type === "sandstorm") activateSandstorm();
 
     setTimeout(() => {
-        showScreen.classList.add("active");
-    }, 500);
+        document.body.className = "";
+    }, 2500);
 }
+
+document.getElementById("restart-btn").style.display = "inline-block";
