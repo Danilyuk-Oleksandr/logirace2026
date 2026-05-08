@@ -41,8 +41,7 @@ let minutes = 24;
 let seconds = 0;
 let timerInterval;
 
-let score = oxygen + power + food + morale + credits;
-addLog("Фінальний score: " + score);
+let totalSeconds = 24 * 60;
 
 let sol = 1;
 const solEl = document.getElementById("sol");
@@ -249,6 +248,18 @@ const events = [
     }
 ];
 
+const rareEvents = [
+   {
+      text: "Виявлено покинуту земну капсулу.",
+      effect: "success",
+      options: [
+          { text: "Обшукати", action: () => { credits += 30; morale += 10; } },
+          { text: "Залишити", action: () => {} },
+          { text: "Знищити", action: () => { morale -= 5; } }
+      ]
+   }
+];
+
 function addLog(message) {
     const li = document.createElement("li");
     li.textContent = message;
@@ -279,18 +290,22 @@ function randomEvent() {
     } while (randomIndex === lastEventIndex);
 
     lastEventIndex = randomIndex;
-    const event = events[randomIndex];
-    currentEvent = event;
 
-    eventText.textContent = event.text;
+    if (Math.random() < 0.15) {
+        currentEvent = rareEvents[Math.floor(Math.random() * rareEvents.length)];
+    } else {
+        currentEvent = events[randomIndex];
+    }
 
-    choice1.textContent = event.options[0].text;
-    choice2.textContent = event.options[1].text;
-    choice3.textContent = event.options[2].text;
+    eventText.textContent = currentEvent.text;
 
-    choice1.onclick = () => handleChoice(event.options[0]);
-    choice2.onclick = () => handleChoice(event.options[1]);
-    choice3.onclick = () => handleChoice(event.options[2]);
+    choice1.textContent = currentEvent.options[0].text;
+    choice2.textContent = currentEvent.options[1].text;
+    choice3.textContent = currentEvent.options[2].text;
+
+    choice1.onclick = () => handleChoice(currentEvent.options[0]);
+    choice2.onclick = () => handleChoice(currentEvent.options[1]);
+    choice3.onclick = () => handleChoice(currentEvent.options[2]);
 }
 
 function handleChoice(option) {
@@ -304,7 +319,20 @@ function handleChoice(option) {
 
     updateUI();
     checkStatus();
-    randomEvent();
+    setTimeout(() => {
+        document.body.classList.remove(
+            "effect-sandstorm",
+            "effect-danger",
+            "effect-success",
+            "effect-glitch",
+            "effect-freeze",
+            "effect-heat",
+            "effect-flash",
+            "effect-toxic",
+            "effect-impact",
+            "effect-warning"
+        );
+    }, 2500);
 }
 
 function checkStatus() {
@@ -317,6 +345,7 @@ function checkStatus() {
     if (oxygen <= 0 || power <= 0 || food <= 0 || morale <= 0) {
         eventText.textContent = "МІСІЮ ПРОВАЛЕНО";
         clearInterval(timerInterval);
+        document.getElementById("restart-btn").style.display = "inline-block";
 
         choice1.style.display = "none";
         choice2.style.display = "none";
@@ -329,7 +358,12 @@ function checkStatus() {
 function startTimer() {
     if (timerInterval) return;
 
-    if (seconds === 59) {
+    totalSeconds--;
+
+    minutes = Math.floor(totalSeconds / 60);
+    seconds = totalSeconds % 60;
+
+    if (totalSeconds % 60 === 0) {
         sol++;
         solEl.textContent = sol;
     }
@@ -342,6 +376,7 @@ function startTimer() {
                 choice1.style.display = "none";
                 choice2.style.display = "none";
                 choice3.style.display = "none";
+                document.getElementById("restart-btn").style.display = "inline-block";
                 addLog("Бурю успішно пережито");
                 return;
             }
@@ -490,4 +525,48 @@ function playEffect(type) {
     }, 2500);
 }
 
-document.getElementById("restart-btn").style.display = "inline-block";
+function calculateScore() {
+    return oxygen + power + food + morale + credits;
+}
+
+if (minutes === 0 && seconds === 0) {
+   const finalScore = calculateScore();
+   addLog("Фінальний score: " + finalScore);
+}
+
+setInterval(() => {
+    oxygen -= 1;
+    power -= 1;
+    food -= 1;
+
+    updateUI();
+    checkStatus();
+}, 10000);
+
+function setDifficulty(mode) {
+   if (mode === "easy") {
+      credits = 150;
+   }
+
+   if (mode === "hard") {
+      oxygen = 60;
+      power = 60;
+      food = 60;
+      morale = 60;
+      credits = 70;
+   }
+
+   updateUI();
+}
+
+function showEnding() {
+   const score = calculateScore();
+
+   if (score > 420) {
+      eventText.textContent = "ЛЕГЕНДАРНИЙ ФІНАЛ: BASE OMEGA ВРЯТОВАНО";
+   } else if (score > 300) {
+      eventText.textContent = "ХОРОШИЙ ФІНАЛ: БАЗА ВИЖИЛА";
+   } else {
+      eventText.textContent = "ПОГАНИЙ ФІНАЛ: ВИЖИВАННЯ ЦІНОЮ ВТРАТ";
+   }
+}
