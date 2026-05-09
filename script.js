@@ -462,7 +462,9 @@ enterBtn.addEventListener("click", () => {
 });
 
 playBtn.addEventListener("click", () => {
+    stopMenuMusic();
     switchScreen(menuScreen, gameContent);
+    startGameMusic();
 });
 
 function createSandParticle() {
@@ -499,11 +501,13 @@ function activateSandstorm() {
 }
 
 upgradeBtn.addEventListener("click", () => {
+    stopMenuMusic();
     switchScreen(menuScreen, upgradeScreen);
 });
 
 backBtn.addEventListener("click", () => {
     switchScreen(upgradeScreen, menuScreen);
+    menuMusic.play();
 });
 
 function buyUpgrade(type, price) {
@@ -538,12 +542,14 @@ function buyUpgrade(type, price) {
 }
 
 statusBtn.addEventListener("click", () => {
+    stopMenuMusic();
     updateStatusScreen();
     switchScreen(menuScreen, statusScreen);
 });
 
 statusBackBtn.addEventListener("click", () => {
     switchScreen(statusScreen, menuScreen);
+    menuMusic.play();
 });
 
 function updateStatusScreen() {
@@ -601,20 +607,37 @@ setInterval(() => {
     checkStatus();
 }, 10000);
 
-function setDifficulty(mode) {
-   if (mode === "easy") {
-      credits = 150;
-   }
+function setDifficulty(mode, button) {
+    document.querySelectorAll(".difficulty").forEach(btn => {
+        btn.classList.remove("active-mode");
+    });
 
-   if (mode === "hard") {
-      oxygen = 60;
-      power = 60;
-      food = 60;
-      morale = 60;
-      credits = 70;
-   }
+    button.classList.add("active-mode");
 
-   updateUI();
+    oxygen = 80;
+    power = 80;
+    food = 80;
+    morale = 80;
+    credits = 100;
+
+    if (mode === "easy") {
+        oxygen = 100;
+        power = 100;
+        food = 100;
+        morale = 100;
+        credits = 150;
+    }
+
+    if (mode === "hard") {
+        oxygen = 60;
+        power = 60;
+        food = 60;
+        morale = 60;
+        credits = 70;
+    }
+
+    updateUI();
+    addLog("Режим: " + mode.toUpperCase());
 }
 
 function showEnding() {
@@ -838,26 +861,37 @@ function buyItem(item, price) {
 
 const menuMusic = document.getElementById("menu-music");
 
-enterBtn.addEventListener("click", () => {
+document.addEventListener("click", startMusicOnce, { once: true });
+
+function startMusicOnce() {
     menuMusic.volume = 0.5;
 
     menuMusic.play().catch(error => {
-        console.log("Помилка запуску музики:", error);
+        console.log("Музика не запустилась:", error);
     });
+}
 
-    switchScreen(startScreen, menuScreen);
-});
-
-playBtn.addEventListener("click", () => {
+function stopMenuMusic() {
     let fade = setInterval(() => {
         if (menuMusic.volume > 0.05) {
             menuMusic.volume -= 0.05;
         } else {
+            clearInterval(fade);
             menuMusic.pause();
             menuMusic.currentTime = 0;
-            clearInterval(fade);
+            menuMusic.volume = 0.5;
         }
     }, 100);
+}
 
-    switchScreen(menuScreen, gameContent);
-});
+const gameMusic = document.getElementById("game-music");
+
+function startGameMusic() {
+    gameMusic.volume = 0.35;
+    gameMusic.play().catch(() => {});
+}
+
+function stopGameMusic() {
+    gameMusic.pause();
+    gameMusic.currentTime = 0;
+}

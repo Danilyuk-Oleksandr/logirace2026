@@ -28,13 +28,23 @@
         <h1>ТЕРМІНАЛ BASE OMEGA</h1>
         <p>Доступ командира підтверджено</p>
 
-        <button id="play-btn">ПОЧАТИ МІСІЮ</button>
-        <button id="upgrade-btn">ПОКРАЩЕННЯ</button>
-        <button id="status-btn">СТАН БАЗИ</button>
-        <button onclick="setDifficulty('easy')">EASY</button>
-        <button onclick="setDifficulty('hard')">HARD</button>
-        <button onclick="saveGame()">SAVE</button>
-        <button onclick="loadGame()">LOAD</button>
+        <div class="main-buttons">
+            <button id="play-btn">ПОЧАТИ МІСІЮ</button>
+            <button id="upgrade-btn">ПОКРАЩЕННЯ</button>
+            <button id="status-btn">СТАН БАЗИ</button>
+        </div>
+
+        <div class="difficulty-box">
+            <p>РЕЖИМ ГРИ</p>
+            <button class="difficulty active-mode" onclick="setDifficulty('normal', this)">NORMAL</button>
+            <button class="difficulty" onclick="setDifficulty('easy', this)">EASY</button>
+            <button class="difficulty" onclick="setDifficulty('hard', this)">HARD</button>
+        </div>
+
+        <div class="save-box">
+            <button class="save-btn" onclick="saveGame()">💾 SAVE</button>
+            <button class="load-btn" onclick="loadGame()">📂 LOAD</button>
+        </div>
     </div>
 </div>
 
@@ -149,6 +159,10 @@
 
 <audio id="menu-music" loop preload="auto">
     <source src="sounds/epic-menu.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="game-music" loop preload="auto">
+    <source src="sounds/game-ambient.mp3" type="audio/mpeg">
 </audio>
 
 <script src="script.js"></script>
