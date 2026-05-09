@@ -64,7 +64,8 @@ let credits = 100;
 let inventory = [
    "Repair Kit",
    "Food Pack",
-   "Battery Cell"
+   "Battery Cell",
+   "Med Kit"
 ];
 
 const lootItems = [
@@ -632,13 +633,25 @@ function updateCrewUI() {
     const crewBox = document.getElementById("crew-list");
     crewBox.innerHTML = "";
 
-    crew.forEach(member => {
+    crew.forEach((member, index) => {
         crewBox.innerHTML += `
             <div class="crew-card">
                 <h3>${member.name}</h3>
                 <p>${member.role}</p>
-                <p>❤️ ${member.health}</p>
-                <p>😵 ${member.stress}</p>
+                <p>❤️ Здоров'я: ${member.health}</p>
+                <p>😵 Стрес: ${member.stress}</p>
+
+                <button onclick="sendMission(${index})">
+                    🚀 Відправити на місію
+                </button>
+
+                <button onclick="restCrew(${index})">
+                    🛌 Відпочинок
+                </button>
+
+                <button onclick="healCrew(${index})">
+                    💉 Лікувати
+                </button>
             </div>
         `;
     });
@@ -719,18 +732,30 @@ function loadGame() {
 function sendMission(memberIndex) {
     let member = crew[memberIndex];
 
-    member.stress += 10;
+    if (member.health <= 20) {
+        addLog(member.name + " занадто слабкий для місії");
+        return;
+    }
 
-    if (Math.random() < 0.5) {
-        inventory.push("Ice Sample");
-        addLog(member.name + " знайшов Ice Sample");
+    member.stress += 10;
+    member.health -= 5;
+
+    if (Math.random() < 0.6) {
+        const foundItem = lootItems[Math.floor(Math.random() * lootItems.length)];
+        inventory.push(foundItem);
+        credits += 5;
+
+        addLog(member.name + " знайшов " + foundItem);
     } else {
         member.health -= 15;
         addLog(member.name + " отримав травму");
     }
 
+    member.health = Math.max(0, member.health);
+
     updateCrewUI();
     updateInventoryUI();
+    updateUI();
 }
 
 updateUI();
@@ -748,4 +773,41 @@ function updateInventoryUI() {
             </li>
         `;
     });
+}
+
+function restCrew(memberIndex) {
+    let member = crew[memberIndex];
+
+    if (power < 5) {
+        addLog("Недостатньо енергії для відпочинку");
+        return;
+    }
+
+    member.stress = Math.max(0, member.stress - 15);
+    morale += 5;
+    power -= 5;
+
+    addLog(member.name + " відпочив");
+
+    updateCrewUI();
+    updateUI();
+}
+
+function healCrew(memberIndex) {
+    let member = crew[memberIndex];
+
+    const medIndex = inventory.indexOf("Med Kit");
+
+    if (medIndex === -1) {
+        addLog("Немає Med Kit");
+        return;
+    }
+
+    member.health = Math.min(100, member.health + 25);
+    inventory.splice(medIndex, 1);
+
+    addLog(member.name + " вилікуваний");
+
+    updateCrewUI();
+    updateInventoryUI();
 }
