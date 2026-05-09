@@ -701,7 +701,9 @@ function saveGame() {
         inventory,
         crew,
         sol,
-        totalSeconds
+        totalSeconds,
+        credits,
+        timer: timerEl.textContent
     };
 
     localStorage.setItem("marsSave", JSON.stringify(saveData));
@@ -710,7 +712,6 @@ function saveGame() {
 
 function loadGame() {
     const data = JSON.parse(localStorage.getItem("marsSave"));
-
     if (!data) return;
 
     oxygen = data.oxygen;
@@ -721,6 +722,9 @@ function loadGame() {
     crew = data.crew;
     sol = data.sol;
     totalSeconds = data.totalSeconds;
+    credits = data.credits;
+
+    timerEl.textContent = data.timer;
 
     updateUI();
     updateInventoryUI();
@@ -796,6 +800,11 @@ function restCrew(memberIndex) {
 function healCrew(memberIndex) {
     let member = crew[memberIndex];
 
+    if (member.health >= 100) {
+        addLog(member.name + " вже повністю здоровий");
+        return;
+    }
+
     const medIndex = inventory.indexOf("Med Kit");
 
     if (medIndex === -1) {
@@ -806,8 +815,49 @@ function healCrew(memberIndex) {
     member.health = Math.min(100, member.health + 25);
     inventory.splice(medIndex, 1);
 
-    addLog(member.name + " вилікуваний");
+    addLog(member.name + " вилікуваний на +25 HP");
 
     updateCrewUI();
     updateInventoryUI();
 }
+
+function buyItem(item, price) {
+    if (credits < price) {
+        addLog("Недостатньо кредитів");
+        return;
+    }
+
+    credits -= price;
+    inventory.push(item);
+
+    addLog("Куплено: " + item);
+
+    updateInventoryUI();
+    updateUI();
+}
+
+const menuMusic = document.getElementById("menu-music");
+
+document.addEventListener("click", () => {
+    if (menuMusic.paused) {
+        menuMusic.play();
+    }
+}, { once: true });
+
+playBtn.addEventListener("click", () => {
+    let fade = setInterval(() => {
+        if (menuMusic.volume > 0.05) {
+            menuMusic.volume -= 0.05;
+        } else {
+            menuMusic.pause();
+            clearInterval(fade);
+        }
+    }, 100);
+
+    switchScreen(menuScreen, gameContent);
+});
+
+enterBtn.addEventListener("click", () => {
+    menuMusic.play();
+    switchScreen(startScreen, menuScreen);
+});

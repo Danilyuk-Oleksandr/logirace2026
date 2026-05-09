@@ -120,6 +120,13 @@
     </section>
 
     <section class="card">
+        <h2>МАГАЗИН</h2>
+        <button onclick="buyItem('Med Kit', 20)">Med Kit - 20</button>
+        <button onclick="buyItem('Food Pack', 15)">Food Pack - 15</button>
+        <button onclick="buyItem('Repair Kit', 15)">Repair Kit - 15</button>
+    </section>
+
+    <section class="card">
         <h2>ЕКІПАЖ</h2>
         <div id="crew-list"></div>
     </section>
@@ -141,5 +148,9 @@
 <div id="particles"></div>
 
 <script src="script.js"></script>
+
+<audio id="menu-music" loop preload="auto">
+    <source src="sounds/epic-menu.mp3" type="audio/mpeg">
+</audio>
 </body>
 </html>
