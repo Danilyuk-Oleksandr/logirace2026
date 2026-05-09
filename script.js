@@ -838,11 +838,15 @@ function buyItem(item, price) {
 
 const menuMusic = document.getElementById("menu-music");
 
-document.addEventListener("click", () => {
-    if (menuMusic.paused) {
-        menuMusic.play();
-    }
-}, { once: true });
+enterBtn.addEventListener("click", () => {
+    menuMusic.volume = 0.5;
+
+    menuMusic.play().catch(error => {
+        console.log("Помилка запуску музики:", error);
+    });
+
+    switchScreen(startScreen, menuScreen);
+});
 
 playBtn.addEventListener("click", () => {
     let fade = setInterval(() => {
@@ -850,14 +854,10 @@ playBtn.addEventListener("click", () => {
             menuMusic.volume -= 0.05;
         } else {
             menuMusic.pause();
+            menuMusic.currentTime = 0;
             clearInterval(fade);
         }
     }, 100);
 
     switchScreen(menuScreen, gameContent);
-});
-
-enterBtn.addEventListener("click", () => {
-    menuMusic.play();
-    switchScreen(startScreen, menuScreen);
 });
