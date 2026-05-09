@@ -31,11 +31,63 @@ const particlesContainer = document.getElementById("particles");
 let stormInterval;
 let currentEvent;
 
+let crew = [
+    {
+        name: "Commander Vega",
+        role: "Командир",
+        health: 100,
+        stress: 20,
+        skill: "leadership"
+    },
+    {
+        name: "Engineer Nova",
+        role: "Інженер",
+        health: 100,
+        stress: 15,
+        skill: "repair"
+    },
+    {
+        name: "Biologist Orion",
+        role: "Біолог",
+        health: 100,
+        stress: 10,
+        skill: "science"
+    }
+];
+
 let oxygen = 80;
 let power = 80;
 let food = 80;
 let morale = 80;
 let credits = 100;
+
+let inventory = [
+   "Repair Kit",
+   "Food Pack",
+   "Battery Cell"
+];
+
+const lootItems = [
+    "Oxygen Tank",
+    "Repair Kit",
+    "Food Pack",
+    "Battery Cell",
+    "Ice Sample",
+    "Med Kit",
+    "Minerals",
+    "Alien Artifact"
+];
+
+function addItem(item) {
+    inventory.push(item);
+    addLog("Отримано предмет: " + item);
+    updateInventoryUI();
+}
+
+function randomLoot() {
+    const item = lootItems[Math.floor(Math.random() * lootItems.length)];
+    addItem(item);
+}
 
 let minutes = 24;
 let seconds = 0;
@@ -253,7 +305,7 @@ const rareEvents = [
       text: "Виявлено покинуту земну капсулу.",
       effect: "success",
       options: [
-          { text: "Обшукати", action: () => { credits += 30; morale += 10; } },
+          { text: "Обшукати", action: () => { power += 30; morale += 10; } },
           { text: "Залишити", action: () => {} },
           { text: "Знищити", action: () => { morale -= 5; } }
       ]
@@ -310,6 +362,9 @@ function randomEvent() {
 
 function handleChoice(option) {
     option.action();
+    if (Math.random() < 0.35) {
+        randomLoot();
+    }
     playEffect(currentEvent.effect);
 
     oxygen = Math.max(0, Math.min(100, oxygen));
@@ -319,6 +374,7 @@ function handleChoice(option) {
 
     updateUI();
     checkStatus();
+
     setTimeout(() => {
         document.body.classList.remove(
             "effect-sandstorm",
@@ -332,6 +388,8 @@ function handleChoice(option) {
             "effect-impact",
             "effect-warning"
         );
+
+        randomEvent(); // <-- НОВА ПОДІЯ
     }, 2500);
 }
 
@@ -503,7 +561,7 @@ function switchScreen(hideScreen, showScreen) {
 }
 
 function playEffect(type) {
-    document.body.classList.remove(
+    gameContent.classList.remove(
         "effect-sandstorm",
         "effect-danger",
         "effect-success",
@@ -516,12 +574,11 @@ function playEffect(type) {
         "effect-warning"
     );
 
-    document.body.classList.add("effect-" + type);
+    gameContent.classList.add("effect-" + type);
 
     if (type === "sandstorm") activateSandstorm();
 
     setTimeout(() => {
-        document.body.className = "";
     }, 2500);
 }
 
@@ -569,4 +626,126 @@ function showEnding() {
    } else {
       eventText.textContent = "ПОГАНИЙ ФІНАЛ: ВИЖИВАННЯ ЦІНОЮ ВТРАТ";
    }
+}
+
+function updateCrewUI() {
+    const crewBox = document.getElementById("crew-list");
+    crewBox.innerHTML = "";
+
+    crew.forEach(member => {
+        crewBox.innerHTML += `
+            <div class="crew-card">
+                <h3>${member.name}</h3>
+                <p>${member.role}</p>
+                <p>❤️ ${member.health}</p>
+                <p>😵 ${member.stress}</p>
+            </div>
+        `;
+    });
+}
+
+function updateInventoryUI() {
+    const inv = document.getElementById("inventory-list");
+    inv.innerHTML = "";
+
+    inventory.forEach(item => {
+        inv.innerHTML += `<li>${item}</li>`;
+    });
+}
+
+function useItem(item) {
+    const index = inventory.indexOf(item);
+
+    if (index === -1) return;
+
+    if (item === "Food Pack") food += 15;
+    if (item === "Repair Kit") power += 15;
+    if (item === "Oxygen Tank") oxygen += 20;
+    if (item === "Battery Cell") power += 10;
+    if (item === "Med Kit") morale += 10;
+    if (item === "Ice Sample") morale += 5;
+    if (item === "Minerals") credits += 10;
+    if (item === "Alien Artifact") morale += 20;
+
+    oxygen = Math.min(100, oxygen);
+    power = Math.min(100, power);
+    food = Math.min(100, food);
+    morale = Math.min(100, morale);
+
+    inventory.splice(index, 1);
+
+    updateUI();
+    updateInventoryUI();
+    addLog("Використано: " + item);
+}
+
+function saveGame() {
+    const saveData = {
+        oxygen,
+        power,
+        food,
+        morale,
+        inventory,
+        crew,
+        sol,
+        totalSeconds
+    };
+
+    localStorage.setItem("marsSave", JSON.stringify(saveData));
+    addLog("Гру збережено");
+}
+
+function loadGame() {
+    const data = JSON.parse(localStorage.getItem("marsSave"));
+
+    if (!data) return;
+
+    oxygen = data.oxygen;
+    power = data.power;
+    food = data.food;
+    morale = data.morale;
+    inventory = data.inventory;
+    crew = data.crew;
+    sol = data.sol;
+    totalSeconds = data.totalSeconds;
+
+    updateUI();
+    updateInventoryUI();
+    updateCrewUI();
+
+    addLog("Гру завантажено");
+}
+
+function sendMission(memberIndex) {
+    let member = crew[memberIndex];
+
+    member.stress += 10;
+
+    if (Math.random() < 0.5) {
+        inventory.push("Ice Sample");
+        addLog(member.name + " знайшов Ice Sample");
+    } else {
+        member.health -= 15;
+        addLog(member.name + " отримав травму");
+    }
+
+    updateCrewUI();
+    updateInventoryUI();
+}
+
+updateUI();
+updateCrewUI();
+updateInventoryUI();
+
+function updateInventoryUI() {
+    const inv = document.getElementById("inventory-list");
+    inv.innerHTML = "";
+
+    inventory.forEach(item => {
+        inv.innerHTML += `
+            <li onclick="useItem('${item}')" style="cursor:pointer; margin:8px 0;">
+                ${item}
+            </li>
+        `;
+    });
 }

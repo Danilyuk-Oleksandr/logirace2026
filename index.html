@@ -30,9 +30,11 @@
 
         <button id="play-btn">ПОЧАТИ МІСІЮ</button>
         <button id="upgrade-btn">ПОКРАЩЕННЯ</button>
+        <button id="status-btn">СТАН БАЗИ</button>
         <button onclick="setDifficulty('easy')">EASY</button>
         <button onclick="setDifficulty('hard')">HARD</button>
-        <button id="status-btn">СТАН БАЗИ</button>
+        <button onclick="saveGame()">SAVE</button>
+        <button onclick="loadGame()">LOAD</button>
     </div>
 </div>
 
@@ -115,6 +117,16 @@
         </div>
 
         <button id="start-btn">Почати місію</button>
+    </section>
+
+    <section class="card">
+        <h2>ЕКІПАЖ</h2>
+        <div id="crew-list"></div>
+    </section>
+
+    <section class="card">
+        <h2>ІНВЕНТАР</h2>
+        <ul id="inventory-list"></ul>
     </section>
 
     <section class="logs card">
