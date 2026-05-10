@@ -1,26 +1,57 @@
+/* =========================================================
+    Шрифти
+========================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap');
 
+
+/* =========================================================
+   Глобальні стилі
+========================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Стилі для боді і фону
+========================================================= */
 body {
     background:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
-    url("images/mars-base.jpg") center/cover fixed;
+        linear-gradient(
+            rgba(0,0,0,0.65),
+            rgba(0,0,0,0.75)
+        ),
+        url("images/mars-base.jpg") center/cover fixed;
+
     color: white;
     font-family: 'Orbitron', sans-serif;
+
     margin: 0;
     padding: 20px;
-    transition: filter 0.5s ease;
+
     min-height: 100vh;
     overflow-x: hidden;
+
+    transition: filter 0.5s ease;
 }
 
 body::before {
     content: "";
+
     position: fixed;
     inset: 0;
+
     background: rgba(0, 0, 0, 0.65);
+
     z-index: -1;
 }
 
+
+/* =========================================================
+   Мейн та топ панель
+========================================================= */
 main {
     max-width: 1200px;
     margin: auto;
@@ -29,432 +60,16 @@ main {
 
 .top-panel {
     display: grid;
-    grid-template-columns:
-        1fr 1.4fr;
+    grid-template-columns: 1fr 1.4fr;
     gap: 25px;
+
     margin-bottom: 30px;
 }
 
-.card {
-    position: relative;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(25,30,45,0.88),
-            rgba(15,18,28,0.94)
-        );
-    border-radius: 26px;
-    padding: 28px;
-    border: 1px solid rgba(255,255,255,0.06);
-    overflow: hidden;
-    backdrop-filter: blur(14px);
-    box-shadow:
-        0 10px 40px rgba(0,0,0,0.45),
-        0 0 30px rgba(255,92,51,0.08);
-    transition: 0.35s ease;
-}
 
-.card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(
-            120deg,
-            transparent,
-            rgba(255,255,255,0.04),
-            transparent
-        );
-    transform: translateX(-100%);
-    transition: 0.8s;
-}
-
-.card:hover::before {
-    transform: translateX(100%);
-}
-
-button {
-    background:
-        linear-gradient(
-            135deg,
-            #ff5c33,
-            #ff7a3d
-        );
-    border: 1px solid rgba(255,255,255,0.08);
-    color: white;
-    padding: 14px 24px;
-    border-radius: 16px;
-    font-family: inherit;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    margin: 8px;
-    transition: 0.25s ease;
-    box-shadow:
-        0 0 18px rgba(255,92,51,0.18);
-}
-
-button:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow:
-        0 8px 25px rgba(255,92,51,0.45),
-        0 0 18px rgba(255,92,51,0.4);
-}
-
-.logs ul {
-    list-style: none;
-    max-height: 240px;
-    overflow-y: auto;
-    padding-right: 8px;
-}
-
-.logs li {
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-#start-screen {
-    position: fixed;
-    inset: 0;
-    background-image: url("images/mars-space.jpg");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    z-index: 1000;
-    transition: opacity 1s ease;
-}
-
-button:active {
-    transform: scale(0.97);
-}
-
-button:disabled {
-    background: #2ea043;
-    cursor: not-allowed;
-    opacity: 0.8;
-}
-
-.bar {
-    width: 100%;
-    height: 18px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50px;
-    overflow: hidden;
-    margin-bottom: 18px;
-    border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
-}
-
-#start-screen::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(3px);
-}
-
-.start-box {
-    background: rgba(20, 24, 35, 0.72);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    padding: 28px;
-    box-shadow:
-        0 10px 35px rgba(0,0,0,0.45),
-        0 0 25px rgba(255,92,51,0.12);
-    transition: 0.3s ease;
-    animation: fadeUp 1s ease;
-}
-
-.card:hover,
-.menu-box:hover,
-.start-box:hover {
-    transform: translateY(-4px);
-    box-shadow:
-        0 15px 40px rgba(0,0,0,0.5),
-        0 0 35px rgba(255,92,51,0.22);
-}
-
-.start-box h1 {
-    color: #ff5c33;
-    font-size: 52px;
-    margin-bottom: 15px;
-}
-
-.start-box p {
-    font-size: 19px;
-    line-height: 1.7;
-    margin-bottom: 25px;
-}
-
-.start-box button {
-    font-size: 18px;
-    padding: 14px 28px;
-}
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(35px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#start-screen,
-#menu-screen,
-#upgrade-screen,
-#status-screen {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-}
-
-@keyframes stormMove {
-    from { background-position: 0 0; }
-    to { background-position: 600px 300px; }
-}
-
-#particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 999;
-}
-
-/* частинка */
-.particle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    opacity: 0;
-    animation: fall linear forwards;
-}
-
-/* рух частинк */
-@keyframes fall {
-    0% {
-        transform: translateY(-10vh) translateX(0);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(110vh) translateX(80px);
-        opacity: 0;
-    }
-}
-
-/* розмитя ефект */
-.blurred {
-    filter: blur(3px) brightness(0.8);
-}
-
-.blur-screen {
-    filter: blur(3px) brightness(0.8);
-}
-
-#menu-screen {
-    background-image: url("images/mars-bg.jpg");
-    background-size: cover;
-    background-position: center;
-    box-shadow:
-        0 10px 35px rgba(0,0,0,0.45),
-        0 0 25px rgba(255,92,51,0.12);
-    transition: 0.3s ease;
-}
-
-.menu-box {
-    text-align: center;
-    background: rgba(22, 27, 34, 0.85);
-    padding: 50px;
-    border-radius: 25px;
-    border: 1px solid #30363d;
-    box-shadow: 0 0 35px rgba(255, 92, 51, 0.2);
-    animation: fadeUp 1s ease;
-}
-
-.menu-box h1 {
-    color: #ff5c33;
-    font-size: 42px;
-}
-
-.menu-box p {
-    margin-bottom: 25px;
-    font-size: 18px;
-}
-
-.fill {
-    height: 100%;
-    width: 80%;
-    border-radius: 50px;
-    background:
-        linear-gradient(
-            90deg,
-            #ff5c33,
-            #ff9f43,
-            #ffd166
-        );
-    box-shadow:
-        0 0 18px rgba(255,120,60,0.45);
-    transition:
-        width 0.4s ease,
-        box-shadow 0.3s ease;
-}
-
-.danger {
-    animation: warning 1s infinite;
-}
-
-@keyframes warning {
-    0% { box-shadow: inset 0 0 0 rgba(255,0,0,0); }
-    50% { box-shadow: inset 0 0 100px rgba(255,0,0,0.2); }
-    100% { box-shadow: inset 0 0 0 rgba(255,0,0,0); }
-}
-
-#upgrade-screen {
-    position: fixed;
-    inset: 0;
-    background-image: url("images/upgrade-bg.png");
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-#upgrade-screen::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-}
-
-#upgrade-screen .menu-box {
-    position: relative;
-    z-index: 2;
-}
-
-#status-screen .menu-box {
-    width: 700px;
-    max-width: 95%;
-    background:linear-gradient(145deg,rgba(18, 22, 35, 0.92),rgba(10, 12, 20, 0.96));
-    border: 1px solid rgba(255,120,60,0.25);
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow:
-        0 0 40px rgba(255,92,51,0.18),
-        0 0 100px rgba(255,92,51,0.08);
-    backdrop-filter: blur(18px);
-}
-
-#status-screen h1 {
-    text-align: center;
-    font-size: 42px;
-    margin-bottom: 30px;
-    color: #ff7a3d;
-    letter-spacing: 3px;
-}
-
-#status-screen p {
-    font-size: 20px;
-    margin: 18px 0;
-    padding: 15px 20px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 16px;
-    border-left: 4px solid #ff5c33;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.3s ease;
-}
-
-#status-screen p:hover {
-    transform: translateX(6px);
-    background: rgba(255,255,255,0.07);
-    box-shadow:
-        0 0 20px rgba(255,92,51,0.12);
-}
-
-#status-screen span {
-    color: #ffb347;
-    font-weight: 700;
-    text-shadow: 0 0 10px rgba(255,179,71,0.5);
-}
-
-#status-screen::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-}
-
-#status-screen .menu-box {
-    position: relative;
-    z-index: 2;
-}
-
-.screen {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.screen.active {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-#game-content.active {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-#menu-screen.active,
-#upgrade-screen.active,
-#status-screen.active,
-#start-screen.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#game-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* =========================================================
+    Кастомні стилі для скроллбару
+========================================================= */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -468,157 +83,755 @@ button:disabled {
     border-radius: 20px;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 20px;
+
+/* =========================================================
+    Базові стилі екрана
+========================================================= */
+.screen {
+    display: none;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
-header h1 {
+.screen.active {
+    display: flex;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+    Базові стилі для стартового, меню, апгрейду та статусного екрану
+========================================================= */
+#start-screen,
+#menu-screen,
+#upgrade-screen,
+#status-screen {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-size: cover;
+    background-position: center;
+}
+
+
+/* =========================================================
+    Початковий екран
+========================================================= */
+#start-screen {
+    background-image: url("images/mars-space.jpg");
+    text-align: center;
+
+    z-index: 1000;
+
+    transition: opacity 1s ease;
+}
+
+#start-screen::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    backdrop-filter: blur(3px);
+}
+
+
+/* =========================================================
+    Меню екран
+========================================================= */
+#menu-screen {
+    background-image: url("images/mars-bg.jpg");
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,92,51,0.12);
+
+    transition: 0.3s ease;
+}
+
+
+/* =========================================================
+    Екран апгрейду
+========================================================= */
+#upgrade-screen {
+    background-image: url("images/upgrade-bg.png");
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+#upgrade-screen::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.65);
+}
+
+#upgrade-screen .menu-box {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+    Статусний екран
+========================================================= */
+#status-screen::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.65);
+}
+
+#status-screen .menu-box {
+    position: relative;
+    z-index: 2;
+
+    width: 700px;
+    max-width: 95%;
+
+    padding: 40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18, 22, 35, 0.92),
+            rgba(10, 12, 20, 0.96)
+        );
+
+    border: 1px solid rgba(255,120,60,0.25);
+    border-radius: 30px;
+
+    backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 0 40px rgba(255,92,51,0.18),
+        0 0 100px rgba(255,92,51,0.08);
+}
+
+#status-screen h1 {
+    text-align: center;
+
     font-size: 42px;
-    color: #ff7a3d;
-    text-shadow: 0 0 20px rgba(255, 92, 51, 0.8);
     letter-spacing: 3px;
-}
 
-header p {
-    opacity: 0.8;
-    margin-top: 10px;
-}
+    margin-bottom: 30px;
 
-h2 {
     color: #ff7a3d;
-    margin-bottom: 15px;
-    font-size: 22px;
-    text-shadow: 0 0 12px rgba(255,92,51,0.4);
 }
 
-#timer {
-    font-size: 82px;
-    font-weight: 800;
-    text-align: center;
-    color: #ff7a3d;
-    letter-spacing: 4px;
-    text-shadow:
-        0 0 15px rgba(255,120,60,0.9),
-        0 0 45px rgba(255,92,51,0.5);
-    animation: timerPulse 2s infinite;
+#status-screen p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 18px 0;
+    padding: 15px 20px;
+
+    font-size: 20px;
+
+    background: rgba(255,255,255,0.04);
+
+    border-radius: 16px;
+    border-left: 4px solid #ff5c33;
+
+    transition: 0.3s ease;
 }
 
-#event-text {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #e6edf3;
+#status-screen p:hover {
+    transform: translateX(6px);
+
+    background: rgba(255,255,255,0.07);
+
+    box-shadow:
+        0 0 20px rgba(255,92,51,0.12);
+}
+
+#status-screen span {
+    color: #ffb347;
+    font-weight: 700;
+
+    text-shadow: 0 0 10px rgba(255,179,71,0.5);
 }
 
 
-@keyframes dangerPulse {
-    0% {
-        box-shadow: inset 0 0 0 rgba(255,0,0,0);
-    }
-    50% {
-        box-shadow: inset 0 0 200px rgba(255,0,0,0.12);
-    }
-    100% {
-        box-shadow: inset 0 0 0 rgba(255,0,0,0);
-    }
+/* =========================================================
+    Відображення активного екрану
+========================================================= */
+#menu-screen.active,
+#upgrade-screen.active,
+#status-screen.active,
+#start-screen.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@media (max-width: 900px) {
-    .top-panel {
-        grid-template-columns: 1fr;
-    }
 
-    #timer {
-        font-size: 52px;
-    }
+/* =========================================================
+    Стилі для основного ігрового екрану
+========================================================= */
+#game-content {
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    header h1 {
-        font-size: 30px;
-    }
+    width: 100%;
+    min-height: 100vh;
 
-    .card,
-    .menu-box,
-    .start-box {
-        padding: 20px;
-    }
+    padding: 20px;
+
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#game-content.active {
+    display: block;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 #game-content.active {
     display: block !important;
 }
 
-.sandstorm {
-    animation: sandFlash 2s ease;
+
+/* =========================================================
+    Стилі для карток
+========================================================= */
+.card {
+    position: relative;
+
+    padding: 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25,30,45,0.88),
+            rgba(15,18,28,0.94)
+        );
+
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 26px;
+
+    overflow: hidden;
+
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.45),
+        0 0 30px rgba(255,92,51,0.08);
+
+    transition: 0.35s ease;
 }
 
-@keyframes sandFlash {
-    0% {
-        filter: blur(0px) brightness(1);
-    }
-    50% {
-        filter: blur(2px) brightness(1.15) sepia(0.4) hue-rotate(-15deg);
-    }
-    100% {
-        filter: blur(0px) brightness(1);
-    }
+.card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.04),
+            transparent
+        );
+
+    transform: translateX(-100%);
+
+    transition: 0.8s;
 }
 
+.card:hover::before {
+    transform: translateX(100%);
+}
+
+
+/* =========================================================
+    Стилі для стартового та меню екрану
+========================================================= */
+.start-box,
+.menu-box {
+    animation: fadeUp 1s ease;
+}
+
+.start-box {
+    padding: 28px;
+
+    background: rgba(20, 24, 35, 0.72);
+
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,92,51,0.12);
+
+    transition: 0.3s ease;
+}
+
+.menu-box {
+    text-align: center;
+
+    padding: 50px;
+
+    background: rgba(22, 27, 34, 0.85);
+
+    border: 1px solid #30363d;
+    border-radius: 25px;
+
+    box-shadow: 0 0 35px rgba(255, 92, 51, 0.2);
+}
+
+.card:hover,
+.menu-box:hover,
+.start-box:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.5),
+        0 0 35px rgba(255,92,51,0.22);
+}
+
+
+/* =========================================================
+    Стилі для тексту на стартовому та меню екрані
+========================================================= */
+.start-box h1,
+.menu-box h1 {
+    color: #ff5c33;
+}
+
+.start-box h1 {
+    font-size: 52px;
+    margin-bottom: 15px;
+}
+
+.menu-box h1 {
+    font-size: 42px;
+}
+
+.start-box p {
+    font-size: 19px;
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+.menu-box p {
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+.start-box button {
+    font-size: 18px;
+    padding: 14px 28px;
+}
+
+
+/* =========================================================
+    Стилі для кнопок
+========================================================= */
+button {
+    background:
+        linear-gradient(
+            135deg,
+            #ff5c33,
+            #ff7a3d
+        );
+
+    color: white;
+
+    padding: 14px 24px;
+    margin: 8px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+
+    font-family: inherit;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+
+    box-shadow:
+        0 0 18px rgba(255,92,51,0.18);
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 8px 25px rgba(255,92,51,0.45),
+        0 0 18px rgba(255,92,51,0.4);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+button:disabled {
+    background: #2ea043;
+
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+
+/* =========================================================
+    Кнопки мейн екрану
+========================================================= */
+.main-buttons {
+    margin-bottom: 25px;
+}
+
+.main-buttons button {
+    display: block;
+
+    width: 280px;
+
+    margin: 12px auto;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+    Кнопки збереження та завантаження
+========================================================= */
+.save-box {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    margin-top: 25px;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #1f6feb, #388bfd);
+}
+
+.load-btn {
+    background: linear-gradient(135deg, #8957e5, #a371f7);
+}
+
+
+/* =========================================================
+    Відображення складності та вибір режиму
+========================================================= */
+.difficulty-box {
+    margin-top: 25px;
+    padding: 20px;
+
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.difficulty-box p {
+    margin-bottom: 15px;
+
+    color: #ff7a3d;
+
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.difficulty {
+    min-width: 120px;
+}
+
+.active-mode {
+    background: linear-gradient(135deg, #2ea043, #3fb950) !important;
+
+    box-shadow: 0 0 20px rgba(63,185,80,0.4);
+}
+
+
+/* =========================================================
+    Заголовки та текст
+========================================================= */
+header {
+    text-align: center;
+
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 42px;
+    letter-spacing: 3px;
+
+    color: #ff7a3d;
+
+    text-shadow: 0 0 20px rgba(255, 92, 51, 0.8);
+}
+
+header p {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+
+/* =========================================================
+    Заголовки другого рівня
+========================================================= */
+h2 {
+    color: #ff7a3d;
+
+    margin-bottom: 15px;
+
+    font-size: 22px;
+
+    text-shadow: 0 0 12px rgba(255,92,51,0.4);
+}
+
+
+/* =========================================================
+    Таймер
+========================================================= */
+#timer {
+    text-align: center;
+
+    font-size: 82px;
+    font-weight: 800;
+    letter-spacing: 4px;
+
+    color: #ff7a3d;
+
+    animation: timerPulse 2s infinite;
+
+    text-shadow:
+        0 0 15px rgba(255,120,60,0.9),
+        0 0 45px rgba(255,92,51,0.5);
+}
+
+
+/* =========================================================
+    Текст подій
+========================================================= */
+#event-text {
+    font-size: 18px;
+    line-height: 1.6;
+
+    margin-bottom: 20px;
+
+    color: #e6edf3;
+}
+
+
+/* =========================================================
+    Логи подій
+========================================================= */
+.logs ul {
+    list-style: none;
+
+    max-height: 240px;
+
+    overflow-y: auto;
+
+    padding-right: 8px;
+}
+
+.logs li {
+    padding: 10px 0;
+
+    font-size: 14px;
+
+    opacity: 0.9;
+
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+
+/* =========================================================
+    Бар і заповнення
+========================================================= */
+.bar {
+    width: 100%;
+    height: 18px;
+
+    margin-bottom: 18px;
+
+    background: rgba(255,255,255,0.06);
+
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 50px;
+
+    overflow: hidden;
+
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
+}
+
+.fill {
+    width: 80%;
+    height: 100%;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff5c33,
+            #ff9f43,
+            #ffd166
+        );
+
+    box-shadow:
+        0 0 18px rgba(255,120,60,0.45);
+
+    transition:
+        width 0.4s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* =========================================================
+    Картки екіпажу
+========================================================= */
+.crew-card {
+    margin-bottom: 15px;
+    padding: 15px;
+
+    background: rgba(255,255,255,0.04);
+
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 15px;
+}
+
+.crew-card button {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+    Відображення подій
+========================================================= */
+.event-panel {
+    position: relative;
+
+    border: 1px solid rgba(255,92,51,0.2);
+}
+
+.event-panel::after {
+    content: "LIVE EVENT";
+
+    position: absolute;
+    top: 15px;
+    right: 20px;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+
+    color: #ff5c33;
+
+    opacity: 0.7;
+}
+
+
+/* =========================================================
+    Частинки
+========================================================= */
+#particles {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 999;
+}
+
+/* частинка */
+.particle {
+    position: absolute;
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    opacity: 0;
+
+    animation: fall linear forwards;
+}
+
+
+/* =========================================================
+    Піщинки
+========================================================= */
 .sand-particle {
     position: fixed;
+
     width: 2px;
     height: 2px;
+
     background: rgba(255, 180, 80, 0.8);
+
     border-radius: 50%;
+
     pointer-events: none;
+
     animation: sandMove linear forwards;
 }
 
-@keyframes sandMove {
-    from {
-        transform: translate(0, 0);
-        opacity: 0;
-    }
 
-    10% {
-        opacity: 1;
-    }
+/* =========================================================
+    Ефекти
+========================================================= */
+/* розмитя ефект */
+.blurred,
+.blur-screen {
+    filter: blur(3px) brightness(0.8);
+}
 
-    to {
-        transform: translate(250px, 100vh);
-        opacity: 0;
-    }
+.danger {
+    animation: warning 1s infinite;
+}
+
+.sandstorm {
+    animation: sandFlash 2s ease;
 }
 
 .reactor-effect {
     animation: reactorGlow 1s ease 2;
 }
 
-@keyframes reactorGlow {
-    50% {
-        box-shadow: inset 0 0 150px rgba(255, 50, 50, 0.25);
-    }
-}
-
 .freeze-effect {
     animation: freezeFlash 1.5s ease;
 }
 
-@keyframes freezeFlash {
-    50% {
-        box-shadow: inset 0 0 180px rgba(100, 180, 255, 0.2);
-    }
-}
-
 .morale-effect {
     animation: moraleGlow 1.5s ease;
-}
-
-@keyframes moraleGlow {
-    50% {
-        box-shadow: inset 0 0 150px rgba(255, 120, 200, 0.15);
-    }
 }
 
 .effect-danger {
@@ -637,93 +850,171 @@ h2 {
     animation: orangePulse 1s ease 2;
 }
 
-@keyframes redPulse {
-    50% { box-shadow: inset 0 0 180px rgba(255, 50, 50, 0.18); }
-}
 
-@keyframes greenPulse {
-    50% { box-shadow: inset 0 0 180px rgba(50, 255, 120, 0.12); }
-}
-
-@keyframes bluePulse {
-    50% { box-shadow: inset 0 0 180px rgba(80, 180, 255, 0.15); }
-}
-
-@keyframes orangePulse {
-    50% { box-shadow: inset 0 0 180px rgba(255, 140, 60, 0.14); }
-}
-
+/* =========================================================
+    Кнопка рестарту
+========================================================= */
 #restart-btn {
     display: none;
+
     position: fixed;
     bottom: 30px;
     right: 30px;
+
     z-index: 9999;
+
     font-size: 18px;
     padding: 14px 22px;
 }
 
-.crew-card {
-    background: rgba(255,255,255,0.04);
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255,255,255,0.08);
+
+/* =========================================================
+    Чіт-меню
+========================================================= */
+#cheat-menu {
+    display: none;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    width: 420px;
+    padding: 30px;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 20, 0, 0.96),
+            rgba(0, 0, 0, 0.98)
+        );
+
+    border: 2px solid #00ff66;
+    border-radius: 20px;
+
+    font-family: 'Orbitron', sans-serif;
+
+    z-index: 99999;
+
+    box-shadow:
+        0 0 25px rgba(0,255,100,0.4),
+        0 0 80px rgba(0,255,100,0.15);
 }
 
-.crew-card button {
-    margin-top: 8px;
+#cheat-menu.active {
     display: block;
-    width: 100%;
+    animation: cheatAppear 0.25s ease;
 }
 
-.main-buttons {
+.cheat-header {
+    text-align: center;
     margin-bottom: 25px;
 }
 
-.main-buttons button {
-    display: block;
-    width: 280px;
-    margin: 12px auto;
-    font-size: 18px;
+.cheat-header h2 {
+    color: #00ff66;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 10px #00ff66,
+        0 0 25px rgba(0,255,100,0.5);
 }
 
-.difficulty-box {
-    margin-top: 25px;
-    padding: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+.cheat-header p {
+    color: #44ff99;
+    opacity: 0.7;
 }
 
-.difficulty-box p {
-    margin-bottom: 15px;
-    color: #ff7a3d;
-    font-size: 16px;
-    letter-spacing: 2px;
+.cheat-buttons button {
+    width: 100%;
+    margin: 10px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #001a00,
+            #003300
+        );
+
+    color: #00ff66;
+
+    border: 1px solid #00ff66;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 0 15px rgba(0,255,100,0.15);
 }
 
-.difficulty {
-    min-width: 120px;
+.cheat-buttons button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #003300,
+            #005500
+        );
+
+    box-shadow:
+        0 0 25px rgba(0,255,100,0.45);
 }
 
-.active-mode {
-    background: linear-gradient(135deg, #2ea043, #3fb950) !important;
-    box-shadow: 0 0 20px rgba(63,185,80,0.4);
+
+/* =========================================================
+    Анімації
+========================================================= */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.save-box {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+@keyframes stormMove {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 600px 300px;
+    }
 }
 
-.save-btn {
-    background: linear-gradient(135deg, #1f6feb, #388bfd);
+/* рух частинк */
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) translateX(80px);
+        opacity: 0;
+    }
 }
 
-.load-btn {
-    background: linear-gradient(135deg, #8957e5, #a371f7);
+@keyframes warning {
+    0% {
+        box-shadow: inset 0 0 0 rgba(255,0,0,0);
+    }
+
+    50% {
+        box-shadow: inset 0 0 100px rgba(255,0,0,0.2);
+    }
+
+    100% {
+        box-shadow: inset 0 0 0 rgba(255,0,0,0);
+    }
 }
 
 @keyframes timerPulse {
@@ -744,108 +1035,94 @@ h2 {
     }
 }
 
-.event-panel {
-    border:
-        1px solid rgba(255,92,51,0.2);
-    position: relative;
+@keyframes dangerPulse {
+    0% {
+        box-shadow: inset 0 0 0 rgba(255,0,0,0);
+    }
+
+    50% {
+        box-shadow: inset 0 0 200px rgba(255,0,0,0.12);
+    }
+
+    100% {
+        box-shadow: inset 0 0 0 rgba(255,0,0,0);
+    }
 }
 
-.event-panel::after {
-    content: "LIVE EVENT";
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 12px;
-    color: #ff5c33;
-    letter-spacing: 2px;
-    opacity: 0.7;
+@keyframes sandFlash {
+    0% {
+        filter: blur(0px) brightness(1);
+    }
+
+    50% {
+        filter:
+            blur(2px)
+            brightness(1.15)
+            sepia(0.4)
+            hue-rotate(-15deg);
+    }
+
+    100% {
+        filter: blur(0px) brightness(1);
+    }
 }
 
-#cheat-menu {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 420px;
+@keyframes sandMove {
+    from {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
 
-    background:
-        linear-gradient(
-            145deg,
-            rgba(0, 20, 0, 0.96),
-            rgba(0, 0, 0, 0.98)
-        );
+    10% {
+        opacity: 1;
+    }
 
-    border: 2px solid #00ff66;
-
-    box-shadow:
-        0 0 25px rgba(0,255,100,0.4),
-        0 0 80px rgba(0,255,100,0.15);
-
-    border-radius: 20px;
-    padding: 30px;
-
-    z-index: 99999;
-
-    display: none;
-
-    font-family: 'Orbitron', sans-serif;
+    to {
+        transform: translate(250px, 100vh);
+        opacity: 0;
+    }
 }
 
-#cheat-menu.active {
-    display: block;
-    animation: cheatAppear 0.25s ease;
+@keyframes reactorGlow {
+    50% {
+        box-shadow: inset 0 0 150px rgba(255, 50, 50, 0.25);
+    }
 }
 
-.cheat-header {
-    text-align: center;
-    margin-bottom: 25px;
+@keyframes freezeFlash {
+    50% {
+        box-shadow: inset 0 0 180px rgba(100, 180, 255, 0.2);
+    }
 }
 
-.cheat-header h2 {
-    color: #00ff66;
-    text-shadow:
-        0 0 10px #00ff66,
-        0 0 25px rgba(0,255,100,0.5);
-
-    letter-spacing: 3px;
+@keyframes moraleGlow {
+    50% {
+        box-shadow: inset 0 0 150px rgba(255, 120, 200, 0.15);
+    }
 }
 
-.cheat-header p {
-    color: #44ff99;
-    opacity: 0.7;
+@keyframes redPulse {
+    50% {
+        box-shadow: inset 0 0 180px rgba(255, 50, 50, 0.18);
+    }
 }
 
-.cheat-buttons button {
-    width: 100%;
-    margin: 10px 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #001a00,
-            #003300
-        );
-
-    border: 1px solid #00ff66;
-
-    color: #00ff66;
-
-    box-shadow:
-        0 0 15px rgba(0,255,100,0.15);
-
-    font-weight: 700;
+@keyframes greenPulse {
+    50% {
+        box-shadow: inset 0 0 180px rgba(50, 255, 120, 0.12);
+    }
 }
 
-.cheat-buttons button:hover {
-    background:
-        linear-gradient(
-            135deg,
-            #003300,
-            #005500
-        );
+@keyframes bluePulse {
+    50% {
+        box-shadow: inset 0 0 180px rgba(80, 180, 255, 0.15);
+    }
+}
 
-    box-shadow:
-        0 0 25px rgba(0,255,100,0.45);
+@keyframes orangePulse {
+    50% {
+        box-shadow: inset 0 0 180px rgba(255, 140, 60, 0.14);
+    }
 }
 
 @keyframes cheatAppear {
@@ -857,5 +1134,30 @@ h2 {
     to {
         opacity: 1;
         transform: translate(-50%, -50%);
+    }
+}
+
+
+/* =========================================================
+    Адаптивність для мобільних пристроївф
+========================================================= */
+@media (max-width: 900px) {
+
+    .top-panel {
+        grid-template-columns: 1fr;
+    }
+
+    #timer {
+        font-size: 52px;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    .card,
+    .menu-box,
+    .start-box {
+        padding: 20px;
     }
 }

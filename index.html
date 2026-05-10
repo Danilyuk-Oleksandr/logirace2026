@@ -9,20 +9,22 @@
 
 <body>
 
+<!-- ==================== ЕКРАН ЗАПУСКУ ==================== -->
 <div id="start-screen" class="screen active">
     <div class="start-box">
         <h1>MARS COLONY</h1>
         <p>SOL 4821 | BASE OMEGA</p>
 
         <p>
-            Глобальна пилова буря наближається до колонії.
-            У вас є 24 години, щоб зберегти ресурси та пережити катастрофу.
+            Глобальна пилова буря наближається до колонії.<br>
+            У вас є 24 години, щоб зберегти ресурси та вижити.
         </p>
 
         <button id="enter-btn">Увійти в систему</button>
     </div>
 </div>
 
+<!-- ==================== ГЛАВНЕ МЕНЮ ==================== -->
 <div id="menu-screen" class="screen">
     <div class="menu-box">
         <h1>ТЕРМІНАЛ BASE OMEGA</h1>
@@ -48,6 +50,7 @@
     </div>
 </div>
 
+<!-- ==================== ЕКРАН ПОКРАЩЕНЬ ==================== -->
 <div id="upgrade-screen" class="screen">
     <div class="menu-box">
         <h1>ПОКРАЩЕННЯ БАЗИ</h1>
@@ -74,6 +77,7 @@
     </div>
 </div>
 
+<!-- ==================== ЕКРАН СТАТУСУ ==================== -->
 <div id="status-screen" class="screen">
     <div class="menu-box">
         <h1>СТАН BASE OMEGA</h1>
@@ -89,70 +93,82 @@
     </div>
 </div>
 
+<!-- ==================== ОСНОВНИЙ ІГРОВИЙ ЕКРАН ==================== -->
 <div id="game-content" class="screen">
-<header>
-    <h1>Mars Base Emergency Simulator</h1>
-    <p>SOL <span id="sol">1</span></p>
-</header>
 
-<main>
-    <section class="top-panel">
-        <div class="card">
-            <h2>СТАН КОЛОНІЇ</h2>
-            <p>Час до бурі:</p>
-            <h1 id="timer">24:00</h1>
-        </div>
+    <header>
+        <h1>Mars Base Emergency Simulator</h1>
+        <p>SOL <span id="sol">1</span></p>
+    </header>
 
-        <div class="card">
-            <h2>РЕСУРСИ</h2>
-            <p>Кисень: <span id="oxygen">80</span>%</p>
-            <div class="bar"><div id="oxygen-bar" class="fill"></div></div>
-            <p>Енергія: <span id="power">80</span>%</p>
-            <div class="bar"><div id="power-bar" class="fill"></div></div>
-            <p>Їжа: <span id="food">80</span>%</p>
-            <div class="bar"><div id="food-bar" class="fill"></div></div>
-            <p>Мораль: <span id="morale">80</span>%</p>
-            <div class="bar"><div id="morale-bar" class="fill"></div></div>
-        </div>
-    </section>
+    <main>
+        <!-- Верхня панель зі статусом і таймером -->
+        <section class="top-panel">
+            <div class="card">
+                <h2>СТАН КОЛОНІЇ</h2>
+                <p>Час до бурі:</p>
+                <h1 id="timer">24:00</h1>
+            </div>
 
-    <section class="event-panel card">
-        <h2>ПОДІЯ МІСІЇ</h2>
-        <p id="event-text">Натисніть старт місії</p>
+            <div class="card">
+                <h2>РЕСУРСИ</h2>
+                <p>Кисень: <span id="oxygen">80</span>%</p>
+                <div class="bar"><div id="oxygen-bar" class="fill"></div></div>
+                
+                <p>Енергія: <span id="power">80</span>%</p>
+                <div class="bar"><div id="power-bar" class="fill"></div></div>
+                
+                <p>Їжа: <span id="food">80</span>%</p>
+                <div class="bar"><div id="food-bar" class="fill"></div></div>
+                
+                <p>Мораль: <span id="morale">80</span>%</p>
+                <div class="bar"><div id="morale-bar" class="fill"></div></div>
+            </div>
+        </section>
 
-        <div class="buttons">
-            <button id="choice1">Вибір 1</button>
-            <button id="choice2">Вибір 2</button>
-            <button id="choice3">Вибір 3</button>
-        </div>
+        <!-- Події та вибір дій -->
+        <section class="event-panel card">
+            <h2>ПОДІЯ МІСІЇ</h2>
+            <p id="event-text">Натисніть «Почати місію»</p>
 
-        <button id="start-btn">Почати місію</button>
-    </section>
+            <div class="buttons">
+                <button id="choice1">Вибір 1</button>
+                <button id="choice2">Вибір 2</button>
+                <button id="choice3">Вибір 3</button>
+            </div>
 
-    <section class="card">
-        <h2>МАГАЗИН</h2>
-        <button onclick="buyItem('Med Kit', 20)">Med Kit - 20</button>
-        <button onclick="buyItem('Food Pack', 15)">Food Pack - 15</button>
-        <button onclick="buyItem('Repair Kit', 15)">Repair Kit - 15</button>
-    </section>
+            <button id="start-btn">Почати місію</button>
+        </section>
 
-    <section class="card">
-        <h2>ЕКІПАЖ</h2>
-        <div id="crew-list"></div>
-    </section>
+        <!-- Магазин -->
+        <section class="card">
+            <h2>МАГАЗИН</h2>
+            <button onclick="buyItem('Med Kit', 20)">Med Kit - 20</button>
+            <button onclick="buyItem('Food Pack', 15)">Food Pack - 15</button>
+            <button onclick="buyItem('Repair Kit', 15)">Repair Kit - 15</button>
+        </section>
 
-    <section class="card">
-        <h2>ІНВЕНТАР</h2>
-        <ul id="inventory-list"></ul>
-    </section>
+        <!-- Екіпаж -->
+        <section class="card">
+            <h2>ЕКІПАЖ</h2>
+            <div id="crew-list"></div>
+        </section>
 
-    <section class="logs card">
-        <h2>ЖУРНАЛ СИСТЕМИ</h2>
-        <ul id="log-list"></ul>
-    </section>
-</main>
+        <!-- Інвентар -->
+        <section class="card">
+            <h2>ІНВЕНТАР</h2>
+            <ul id="inventory-list"></ul>
+        </section>
+
+        <!-- Журнал подій -->
+        <section class="logs card">
+            <h2>ЖУРНАЛ СИСТЕМИ</h2>
+            <ul id="log-list"></ul>
+        </section>
+    </main>
 </div>
 
+<!-- ==================== ЧИТ-МЕНЮ (для тестування) ==================== -->
 <div id="cheat-menu">
     <div class="cheat-header">
         <h2>OMEGA CHEAT TERMINAL</h2>
@@ -160,38 +176,22 @@
     </div>
 
     <div class="cheat-buttons">
-
-        <button onclick="addResources()">
-            + РЕСУРСИ
-        </button>
-
-        <button onclick="addCredits()">
-            + КРЕДИТИ
-        </button>
-
-        <button onclick="addRandomLoot()">
-            + LOOT
-        </button>
-
-        <button onclick="skipTime()">
-            ⏩ ПЕРЕМОТАТИ ЧАС
-        </button>
-
-        <button onclick="healAllCrew()">
-            💉 HEAL CREW
-        </button>
-
-        <button onclick="maxStats()">
-            ⚡ MAX STATS
-        </button>
-
+        <button onclick="addResources()">+ РЕСУРСИ</button>
+        <button onclick="addCredits()">+ КРЕДИТИ</button>
+        <button onclick="addRandomLoot()">+ LOOT</button>
+        <button onclick="skipTime()">⏩ ПЕРЕМОТАТИ ЧАС</button>
+        <button onclick="healAllCrew()">💉 HEAL CREW</button>
+        <button onclick="maxStats()">⚡ MAX STATS</button>
     </div>
 </div>
 
+<!-- Кнопка перезапуску -->
 <button id="restart-btn" onclick="location.reload()">RESTART</button>
 
+<!-- Контейнер для частинок -->
 <div id="particles"></div>
 
+<!-- Музика -->
 <audio id="menu-music" loop preload="auto">
     <source src="sounds/epic-menu.mp3" type="audio/mpeg">
 </audio>
