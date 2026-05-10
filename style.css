@@ -29,35 +29,69 @@ main {
 
 .top-panel {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1.4fr;
     gap: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .card {
-    background: rgba(20, 24, 35, 0.72);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
+    position: relative;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25,30,45,0.88),
+            rgba(15,18,28,0.94)
+        );
+    border-radius: 26px;
     padding: 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    backdrop-filter: blur(14px);
     box-shadow:
-        0 10px 35px rgba(0,0,0,0.45),
-        0 0 25px rgba(255,92,51,0.12);
-    transition: 0.3s ease;
+        0 10px 40px rgba(0,0,0,0.45),
+        0 0 30px rgba(255,92,51,0.08);
+    transition: 0.35s ease;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.04),
+            transparent
+        );
+    transform: translateX(-100%);
+    transition: 0.8s;
+}
+
+.card:hover::before {
+    transform: translateX(100%);
 }
 
 button {
-    background: linear-gradient(135deg, #ff5c33, #ff8733);
-    border: none;
+    background:
+        linear-gradient(
+            135deg,
+            #ff5c33,
+            #ff7a3d
+        );
+    border: 1px solid rgba(255,255,255,0.08);
     color: white;
     padding: 14px 24px;
-    border-radius: 14px;
+    border-radius: 16px;
     font-family: inherit;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
     margin: 8px;
-    transition: all 0.25s ease;
-    box-shadow: 0 0 15px rgba(255,92,51,0.25);
+    transition: 0.25s ease;
+    box-shadow:
+        0 0 18px rgba(255,92,51,0.18);
 }
 
 button:hover {
@@ -107,12 +141,13 @@ button:disabled {
 
 .bar {
     width: 100%;
-    height: 16px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 20px;
+    height: 18px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50px;
     overflow: hidden;
-    margin-bottom: 14px;
-    border: 1px solid rgba(255,255,255,0.04);
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
 }
 
 #start-screen::before {
@@ -266,10 +301,19 @@ button:disabled {
 .fill {
     height: 100%;
     width: 80%;
-    border-radius: 20px;
-    background: linear-gradient(90deg, #ff5c33, #ffb347);
-    box-shadow: 0 0 12px rgba(255,92,51,0.6);
-    transition: width 0.4s ease;
+    border-radius: 50px;
+    background:
+        linear-gradient(
+            90deg,
+            #ff5c33,
+            #ff9f43,
+            #ffd166
+        );
+    box-shadow:
+        0 0 18px rgba(255,120,60,0.45);
+    transition:
+        width 0.4s ease,
+        box-shadow 0.3s ease;
 }
 
 .danger {
@@ -305,15 +349,51 @@ button:disabled {
     z-index: 2;
 }
 
-#status-screen {
-    position: fixed;
-    inset: 0;
-    background-image: url("images/status-bg.png");
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
+#status-screen .menu-box {
+    width: 700px;
+    max-width: 95%;
+    background:linear-gradient(145deg,rgba(18, 22, 35, 0.92),rgba(10, 12, 20, 0.96));
+    border: 1px solid rgba(255,120,60,0.25);
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow:
+        0 0 40px rgba(255,92,51,0.18),
+        0 0 100px rgba(255,92,51,0.08);
+    backdrop-filter: blur(18px);
+}
+
+#status-screen h1 {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 30px;
+    color: #ff7a3d;
+    letter-spacing: 3px;
+}
+
+#status-screen p {
+    font-size: 20px;
+    margin: 18px 0;
+    padding: 15px 20px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    border-left: 4px solid #ff5c33;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    z-index: 1000;
+    transition: 0.3s ease;
+}
+
+#status-screen p:hover {
+    transform: translateX(6px);
+    background: rgba(255,255,255,0.07);
+    box-shadow:
+        0 0 20px rgba(255,92,51,0.12);
+}
+
+#status-screen span {
+    color: #ffb347;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255,179,71,0.5);
 }
 
 #status-screen::before {
@@ -414,14 +494,15 @@ h2 {
 }
 
 #timer {
-    font-size: 70px;
+    font-size: 82px;
     font-weight: 800;
-    color: #ff5c33;
-    text-shadow:
-        0 0 15px rgba(255,92,51,0.8),
-        0 0 35px rgba(255,92,51,0.4);
     text-align: center;
-    margin-top: 15px;
+    color: #ff7a3d;
+    letter-spacing: 4px;
+    text-shadow:
+        0 0 15px rgba(255,120,60,0.9),
+        0 0 45px rgba(255,92,51,0.5);
+    animation: timerPulse 2s infinite;
 }
 
 #event-text {
@@ -643,4 +724,39 @@ h2 {
 
 .load-btn {
     background: linear-gradient(135deg, #8957e5, #a371f7);
+}
+
+@keyframes timerPulse {
+    0% {
+        text-shadow:
+            0 0 15px rgba(255,120,60,0.8);
+    }
+
+    50% {
+        text-shadow:
+            0 0 35px rgba(255,120,60,1),
+            0 0 60px rgba(255,92,51,0.7);
+    }
+
+    100% {
+        text-shadow:
+            0 0 15px rgba(255,120,60,0.8);
+    }
+}
+
+.event-panel {
+    border:
+        1px solid rgba(255,92,51,0.2);
+    position: relative;
+}
+
+.event-panel::after {
+    content: "LIVE EVENT";
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 12px;
+    color: #ff5c33;
+    letter-spacing: 2px;
+    opacity: 0.7;
 }

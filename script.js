@@ -431,7 +431,7 @@ function startTimer() {
         if (seconds === 0) {
             if (minutes === 0) {
                 clearInterval(timerInterval);
-                eventText.textContent = "МІСІЮ УСПІШНО ЗАВЕРШЕНО";
+                showEnding();
                 choice1.style.display = "none";
                 choice2.style.display = "none";
                 choice3.style.display = "none";
@@ -641,15 +641,127 @@ function setDifficulty(mode, button) {
 }
 
 function showEnding() {
-   const score = calculateScore();
 
-   if (score > 420) {
-      eventText.textContent = "ЛЕГЕНДАРНИЙ ФІНАЛ: BASE OMEGA ВРЯТОВАНО";
-   } else if (score > 300) {
-      eventText.textContent = "ХОРОШИЙ ФІНАЛ: БАЗА ВИЖИЛА";
-   } else {
-      eventText.textContent = "ПОГАНИЙ ФІНАЛ: ВИЖИВАННЯ ЦІНОЮ ВТРАТ";
-   }
+    clearInterval(timerInterval);
+
+    choice1.style.display = "none";
+    choice2.style.display = "none";
+    choice3.style.display = "none";
+
+    document.getElementById("restart-btn").style.display = "inline-block";
+
+    const score =
+        oxygen +
+        power +
+        food +
+        morale +
+        credits;
+
+    let endingTitle = "";
+    let endingText = "";
+
+    // ===== СЕКРЕТНА КІНЦІВКА =====
+    if (
+        oxygen >= 90 &&
+        power >= 90 &&
+        food >= 90 &&
+        morale >= 90 &&
+        credits >= 150
+    ) {
+
+        endingTitle = "🌟 ІДЕАЛЬНИЙ ФІНАЛ";
+        endingText =
+            "BASE OMEGA стала першою повністю стабільною колонією Марса. Земля запускає нову хвилю колонізації.";
+
+        addLog("Отримано секретний фінал");
+
+    }
+
+    // ===== ЛЕГЕНДАРНА =====
+    else if (score >= 420) {
+
+        endingTitle = "🏆 ЛЕГЕНДАРНИЙ ФІНАЛ";
+        endingText =
+            "Колонія пережила бурю майже без втрат. Екіпаж увійшов в історію Марса.";
+
+    }
+
+    // ===== ДУЖЕ ХОРОША =====
+    else if (score >= 340) {
+
+        endingTitle = "✅ УСПІШНИЙ ФІНАЛ";
+        endingText =
+            "BASE OMEGA вистояла. Системи стабільні, екіпаж готовий до нових місій.";
+
+    }
+
+    // ===== НОРМАЛЬНА =====
+    else if (score >= 260) {
+
+        endingTitle = "🟡 СТАБІЛЬНИЙ ФІНАЛ";
+        endingText =
+            "Колонія вижила, але ресурси сильно виснажені.";
+
+    }
+
+    // ===== ВАЖКИЙ =====
+    else if (score >= 180) {
+
+        endingTitle = "⚠️ ВАЖКИЙ ФІНАЛ";
+        endingText =
+            "Бурю пережито ціною серйозних втрат. Частина бази непридатна.";
+
+    }
+
+    // ===== ПОГАНИЙ =====
+    else if (score >= 100) {
+
+        endingTitle = "☠️ КРИТИЧНИЙ ФІНАЛ";
+        endingText =
+            "Колонія майже зруйнована. Екіпаж чекає евакуації із Землі.";
+
+    }
+
+    // ===== ЖАХЛИВИЙ =====
+    else if (score > 0) {
+
+        endingTitle = "💀 ФІНАЛ КАТАСТРОФИ";
+        endingText =
+            "BASE OMEGA перестала функціонувати. Вижили лише одиниці.";
+
+    }
+
+    // ===== ПОВНИЙ ПРОВАЛ =====
+    else {
+
+        endingTitle = "🚨 ПОВНЕ ЗНИЩЕННЯ";
+        endingText =
+            "Усі системи бази відмовили. Місія Марса провалена.";
+
+    }
+
+    eventText.innerHTML = `
+        <h2 style="color:#ff7a3d; margin-bottom:15px;">
+            ${endingTitle}
+        </h2>
+
+        <p style="font-size:18px; line-height:1.7;">
+            ${endingText}
+        </p>
+
+        <br>
+
+        <p>
+            🫁 Кисень: ${oxygen}%<br>
+            ⚡ Енергія: ${power}%<br>
+            🍖 Їжа: ${food}%<br>
+            🙂 Мораль: ${morale}%<br>
+            💳 Кредити: ${credits}<br>
+            ⭐ Score: ${score}
+        </p>
+    `;
+
+    addLog("Фінал гри: " + endingTitle);
 }
 
 function updateCrewUI() {
