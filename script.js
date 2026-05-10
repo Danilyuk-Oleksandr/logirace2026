@@ -1007,3 +1007,128 @@ function stopGameMusic() {
     gameMusic.pause();
     gameMusic.currentTime = 0;
 }
+
+// ==========================
+// Чіти чісто для мене
+// ==========================
+
+const cheatMenu = document.getElementById("cheat-menu");
+
+let cheatCode = [];
+const secretCode = [
+    "ArrowUp",
+    "ArrowUp",
+    "ArrowDown",
+    "ArrowDown",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowLeft",
+    "ArrowRight"
+];
+
+document.addEventListener("keydown", (e) => {
+
+    cheatCode.push(e.key);
+
+    if (cheatCode.length > secretCode.length) {
+        cheatCode.shift();
+    }
+
+    if (
+        JSON.stringify(cheatCode) ===
+        JSON.stringify(secretCode)
+    ) {
+
+        cheatMenu.classList.toggle("active");
+
+        addLog("CHEAT TERMINAL ACTIVATED");
+
+        cheatCode = [];
+    }
+
+    // ESC закриває меню
+    if (e.key === "Escape") {
+        cheatMenu.classList.remove("active");
+    }
+
+});
+
+// + ресурси
+function addResources() {
+
+    oxygen = Math.min(100, oxygen + 25);
+    power = Math.min(100, power + 25);
+    food = Math.min(100, food + 25);
+    morale = Math.min(100, morale + 25);
+
+    updateUI();
+
+    addLog("CHEAT: ресурси додано");
+}
+
+// + кредити
+function addCredits() {
+
+    credits += 100;
+
+    updateUI();
+
+    addLog("CHEAT: +100 кредитів");
+}
+
+// loot
+function addRandomLoot() {
+
+    for (let i = 0; i < 3; i++) {
+        randomLoot();
+    }
+
+    updateInventoryUI();
+
+    addLog("CHEAT: loot додано");
+}
+
+// перемотка часу
+function skipTime() {
+
+    totalSeconds -= 300;
+
+    if (totalSeconds < 0) {
+        totalSeconds = 0;
+    }
+
+    minutes = Math.floor(totalSeconds / 60);
+    seconds = totalSeconds % 60;
+
+    timerEl.textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    addLog("CHEAT: час перемотано");
+}
+
+// лікування екіпажу
+function healAllCrew() {
+
+    crew.forEach(member => {
+        member.health = 100;
+        member.stress = 0;
+    });
+
+    updateCrewUI();
+
+    addLog("CHEAT: екіпаж вилікувано");
+}
+
+// max stats
+function maxStats() {
+
+    oxygen = 100;
+    power = 100;
+    food = 100;
+    morale = 100;
+    credits = 999;
+
+    updateUI();
+
+    addLog("CHEAT: MAX STATS");
+}

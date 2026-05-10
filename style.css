@@ -760,3 +760,102 @@ h2 {
     letter-spacing: 2px;
     opacity: 0.7;
 }
+
+#cheat-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 20, 0, 0.96),
+            rgba(0, 0, 0, 0.98)
+        );
+
+    border: 2px solid #00ff66;
+
+    box-shadow:
+        0 0 25px rgba(0,255,100,0.4),
+        0 0 80px rgba(0,255,100,0.15);
+
+    border-radius: 20px;
+    padding: 30px;
+
+    z-index: 99999;
+
+    display: none;
+
+    font-family: 'Orbitron', sans-serif;
+}
+
+#cheat-menu.active {
+    display: block;
+    animation: cheatAppear 0.25s ease;
+}
+
+.cheat-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.cheat-header h2 {
+    color: #00ff66;
+    text-shadow:
+        0 0 10px #00ff66,
+        0 0 25px rgba(0,255,100,0.5);
+
+    letter-spacing: 3px;
+}
+
+.cheat-header p {
+    color: #44ff99;
+    opacity: 0.7;
+}
+
+.cheat-buttons button {
+    width: 100%;
+    margin: 10px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #001a00,
+            #003300
+        );
+
+    border: 1px solid #00ff66;
+
+    color: #00ff66;
+
+    box-shadow:
+        0 0 15px rgba(0,255,100,0.15);
+
+    font-weight: 700;
+}
+
+.cheat-buttons button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #003300,
+            #005500
+        );
+
+    box-shadow:
+        0 0 25px rgba(0,255,100,0.45);
+}
+
+@keyframes cheatAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
